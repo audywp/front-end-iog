@@ -1,0 +1,109 @@
+.container {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  .row{
+
+    .col-md-2{
+      background: rgba(50, 56, 73, 0.9);
+      border-radius: 20px;
+      box-shadow: 1px 1px 28px 5px black;
+      // display: flex;
+      // flex-direction: column;
+      // justify-content: space-evenly;
+      // align-items: center;
+      height: 89vh;
+      margin-top: 10px;
+      padding: 80px 0;
+      
+      .wrap-link{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        height: 100% !important;
+        a{
+          color: #ddd;
+          font-size: 18px;
+          text-decoration: none;
+          width: 70%;
+          display: flex;
+          justify-content: space-between;
+          
+          align-items: center;
+          svg{
+            margin-bottom: 20px;
+          }
+        }
+        a:hover {
+          transform: scale(1.05);
+          border-bottom: 1px solid #ddd;
+        }
+      }
+
+      .logoDashboard{
+        border:none;
+        font-size: 22px;
+        text-decoration: none;
+        color: #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+      }
+
+    }
+
+    .col-md-10{
+      background: rgba(19,26,47, 0.9);
+      margin-top: 10px;
+      border-radius: 20px;
+
+      .row{
+        margin-top: 10px;
+        
+        .col-md-4{
+          
+        }
+        .col-md-8{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          .card {
+            width: 240px;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 150px;
+            font-size: 18px;
+            margin-top: 45px;
+            svg{
+              font-size: 6.5rem;
+              position: absolute;
+              bottom: 0;
+              right: -15px;
+              color: rgba(221,221,221, 0.5);
+            }
+          }
+          .card:first-child{
+            background: linear-gradient(to right top, #94c4f5, #1c8be0)
+          }
+
+          .card:nth-child(2){
+            background: linear-gradient(to right top, rgb(250, 169, 140), rgb(250, 79, 84))
+          }
+          .card:nth-child(3){
+            background: linear-gradient(to right top, #f7d794, #ffd32a)
+          }
+        }
+
+        .col-md-12{
+          margin-top: 60px;
+          .table-responsive{
+            font-size: 18px;
+          }
+
+        }
+      }
+    }
+  }
+}

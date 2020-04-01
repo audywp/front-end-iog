@@ -1,0 +1,16 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root{
+  background-image: url('../Images/bg3.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100vh;
+  overflow-x: hidden;
+  letter-spacing: 2px;
+  font-family: 'Poppins', sans-serif;
+}
