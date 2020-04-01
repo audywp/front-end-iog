@@ -12,12 +12,25 @@ nav{
 
   .navbar-brand{
     font-size: 32px;
+    color: #ddd;
+    a{
+      text-decoration: none;
+    }
   }
 
   a{
     flex: 1;
     text-shadow: 1px 1px 1px black;
     font-weight: 400;
+    color: #ddd;
+    
+  }
+  .nav-item{
+    .nav-link{
+      a{
+        text-decoration: none;
+      }
+    }
   }
 }
 

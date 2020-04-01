@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, {  Component } from 'react'
 import '../assets/Styles/Components/Navbar.scss'
+import Login from '../Pages/Login'
 import { Link } from 'react-router-dom'
 import {
   Navbar as Navigation,
@@ -10,13 +11,22 @@ import {
   NavLink
 } from 'reactstrap'
 
-const Navbar =  (props) => {
+class Navbar extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      open : false,
+      close : true
+    }
+  }
+
+  render(){
+
     return (
       <>
         <Navigation expand="md">
-          <NavbarBrand>IOG</NavbarBrand>
+          <NavbarBrand> <Link to='/'>IOG</Link> </NavbarBrand>
           <NavbarToggler />
-          
             <Nav>
               <NavItem>
                 <NavLink>
@@ -25,13 +35,15 @@ const Navbar =  (props) => {
               </NavItem>
               <NavItem>
                 <NavLink>
-                  Login
+                  <Login/>
                 </NavLink>
               </NavItem>
             </Nav>
         </Navigation>
+        
       </>
     )
+  }
   
 }
 
