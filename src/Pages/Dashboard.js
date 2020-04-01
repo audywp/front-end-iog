@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table} from 'reactstrap'
-import styled from 'styled-components'
+import { Container, Row, Col} from 'reactstrap'
+// import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 import { FaBusAlt, FaRoute, FaUserFriends } from 'react-icons/fa'
 import { AiOutlineSchedule } from 'react-icons/ai'

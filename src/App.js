@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Navbar from './Components/Navbar'
 import Dashoard from './Pages/Dashboard'
-import {BrowserRouter, Route, Switch, Link} from 'react-router-dom'
-import Login from './Pages/Login'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+// import Login from './Pages/Login'
 
 
 

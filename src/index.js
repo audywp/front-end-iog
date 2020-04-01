@@ -4,19 +4,17 @@ import App from './App';
 import './assets/Styles/root.scss'
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { createStore } from 'redux'
-import allReducers from './reducers/index'
+import redux from './Redux/Store'
 import { Provider } from 'react-redux'
+import {PersistGate} from 'redux-persist/integration/react'
 
-const store = createStore(
-  allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
 
 ReactDOM.render(
   
-    <Provider store={store}>
-      <App />
+    <Provider store={redux().store}>
+      <PersistGate persistor={ redux().persistor }>
+        <App />
+      </PersistGate>
     </Provider >,
   
   document.getElementById('root')

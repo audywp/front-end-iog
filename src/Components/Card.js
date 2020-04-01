@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card as CardComp, CardBody } from 'reactstrap'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 export default class Card extends Component {
   render() {
     return (
