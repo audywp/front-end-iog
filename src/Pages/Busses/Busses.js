@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap'
+import { Table, Button } from 'reactstrap'
 import styled from 'styled-components'
 import { AiOutlineForm, AiOutlineDelete } from 'react-icons/ai'
-import { getBus } from '../../Redux/actions/Admin/Busses'
+import { getBus, updateBus,deleteBus } from '../../Redux/actions/Admin/Busses'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import EditBusses from './EditBusses'
 
 const TableData = styled(Table)`
   color: #ddd
@@ -15,8 +17,16 @@ class Busses extends Component {
     }
   }
   componentDidMount() {
-    this.props.getBus() 
+    this.props.getBus()
+    this.props.deleteBus(this.props.id)
   }
+
+  updateData = (id, data) => {
+    this.props.updateBus(id, data)
+    this.props.getBus()
+    alert('ok')
+  }
+
   render() {
     return (
       <>
@@ -40,8 +50,8 @@ class Busses extends Component {
                 <td>{v.bus_class}</td>
                 <td>{v.bus_seat}</td>
                 <td>
-                  <span> <AiOutlineForm/> </span>
-                  <span> < AiOutlineDelete /> </span>
+                  <span><EditBusses updateData={this.updateData} match='update' id={`${v.id}`} /></span>
+                  <span onClick={()=> this.props.deleteBus(v.id)}> <AiOutlineDelete /> </span>
                 </td>
               </tr>
             )
@@ -59,5 +69,5 @@ const mapStateToProps = (state) => {
     Bus : state.Busses
   }
 }
-const mapDispatchToProps = {getBus}
+const mapDispatchToProps = {getBus, updateBus, deleteBus}
 export default connect(mapStateToProps, mapDispatchToProps)(Busses)

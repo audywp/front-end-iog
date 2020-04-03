@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Row, Col} from 'reactstrap'
 // import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link, BrowserRouter, Route,} from 'react-router-dom'
 import { FaBusAlt, FaRoute, FaUserFriends } from 'react-icons/fa'
 import { AiOutlineSchedule } from 'react-icons/ai'
 import '../assets/Styles/Pages/Dashboard.scss'
@@ -9,10 +9,12 @@ import Doughnut from '../Components/Chart/Doughnut'
 import Card from '../Components/Card'
 import Busses from './Busses/Busses'
 
+
 export default class Dashboard extends Component {
   render() {
     return (
       <>
+        <BrowserRouter>
         <Container>
           <Row>
             <Col md={2}>
@@ -37,12 +39,13 @@ export default class Dashboard extends Component {
               </Row>
               <Row>
                 <Col md={12}>
-                  <Busses />
+                  <Route path='/dashboard/bus' exact render={() => <Busses />} />
                 </Col>
               </Row>
             </Col>
           </Row>
         </Container>
+        </BrowserRouter>
       </>
     )
   }

@@ -6,26 +6,28 @@ const initState = {
 export default function Busses(state= initState, action) {
   switch (action.type) {
     case 'GET_BUSSES':
-      const { data } = state
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
         data: action.payload
       }
     case 'EDIT_BUSSES':
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
         data: action.payload
       }
     case 'ADD_BUSSES':
       return {
         ...state,
-        
+        isLoading: false,
+        data: action.payload
       }
     case 'DELETE_BUSSES' :
       return {
         ...state,
+        isLoading: false,
+        data: action.payload
       }
     default:
       return {...state}

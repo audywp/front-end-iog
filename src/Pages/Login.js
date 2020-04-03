@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Modal, Button, Container, FormGroup, Input, Label,Form} from 'reactstrap'
 import '../assets/Styles/Pages/Login.scss'
 import {MdKeyboardBackspace} from 'react-icons/md'
@@ -34,7 +34,7 @@ const Login = (props) => {
     if (infoLogin.data.success === true) {
       localStorage.setItem('token', infoLogin.data.token)
       setIsLogin({
-        isLogin : true
+        isLogin : !isLogin
       })
     } else {
       console.log(infoLogin)
