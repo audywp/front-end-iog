@@ -6,28 +6,39 @@ import { FiUser, FiLock } from 'react-icons/fi'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import setLogin from '../Redux/actions/isLogin'
-
+import Config from '../utils/Config'
+import axios from 'axios'
 const Login = (props) => {
   
   const [modal, setModal] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [isLogin, setIsLogin] = useState(false)
   const toggle = () => setModal(!modal)
 
   const submitUsername = (e) => {
-    setUsername({
-      username: e.target.value
-    })
+    setUsername(e.target.value)
   }
   const submitPassword = (e) => {
-    setPassword({
-      password: e.target.value
-    })
+    setPassword(e.target.value)
   }
   
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault()
-    this.props.setLogin(username, password)
+    const endPoint = Config.APP_BACKEND.concat('user/login')
+    const params = {
+    username,
+    password
+  }
+  const infoLogin = await axios.post(endPoint, params)
+    if (infoLogin.data.success === true) {
+      localStorage.setItem('token', infoLogin.data.token)
+      setIsLogin({
+        isLogin : true
+      })
+    } else {
+      console.log(infoLogin)
+    }
   }
   
 
@@ -72,7 +83,6 @@ const Login = (props) => {
           <Link className='forgotpassword' to='/forgotpassword'>Forgot your password ?</Link>
         </Container>
       </Modal>
-      {console.log({username}, {password})}
     </>
   )
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Navbar from './Components/Navbar'
 import Dashoard from './Pages/Dashboard'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-// import Login from './Pages/Login'
-
+import {BrowserRouter, Router, Route, Switch} from 'react-router-dom'
+import EditBusses from './Pages/Busses/EditBusses'
+import history from './utils/history'
 
 
 export default class App extends Component {
@@ -11,10 +11,13 @@ export default class App extends Component {
     return (
       <>
         <BrowserRouter>
-          <Navbar/>
-          <Switch>
-            <Route path='/dashboard' render={() => <Dashoard />} />
-          </Switch>
+          <Router history={history}>
+            <Navbar/>
+            <EditBusses />
+            <Switch>
+              <Route path='/dashboard' render={() => <Dashoard />} />
+            </Switch>
+          </Router>
         </BrowserRouter>
        
 

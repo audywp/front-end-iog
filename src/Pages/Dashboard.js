@@ -7,7 +7,7 @@ import { AiOutlineSchedule } from 'react-icons/ai'
 import '../assets/Styles/Pages/Dashboard.scss'
 import Doughnut from '../Components/Chart/Doughnut'
 import Card from '../Components/Card'
-import Busses from './Busses'
+import Busses from './Busses/Busses'
 
 export default class Dashboard extends Component {
   render() {

@@ -1,16 +1,17 @@
 const initialState = {
-  username: '',
-  isLogged: false
+  userInfo: {},
+  isLogged: false,
 }
 
 export default function isLogin(state = initialState, action) {
 
   switch(action.type){
     case 'IS_LOGIN':
+      const {isLogged, userInfo} = state
+      
       return {
         ...state,
-        users: action.username,
-        isLogged: true
+        isLogged :true
       }
     case 'IS_LOGOUT':
       return initialState
