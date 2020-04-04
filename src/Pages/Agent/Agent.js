@@ -3,18 +3,18 @@ import { Table, Input, Form, FormGroup,Label, Pagination, PaginationItem, Pagina
 import {connect} from 'react-redux'
 import {AiOutlineDelete} from 'react-icons/ai'
 import {FaSearch} from 'react-icons/fa'
-import CreateRoutes from './CreateRoutes'
-import EditRoutes from './EditRoutes'
-import {showRoutes, deleteRoutes} from '../../Redux/actions/Admin/Route'
+// import CreateRoutes from './CreateRoutes'
+// import EditRoutes from './EditRoutes'
+import {GetDataAgent} from '../../Redux/actions/Admin/Agent'
 import styled from 'styled-components'
 
 const TableSchedules = styled(Table)`
   color: #ddd;
 `
-class Routes extends Component {
+class Agent extends Component {
   
   componentDidMount() {
-    this.props.showRoutes()
+    this.props.GetDataAgent()
   }
   render() {
     return (
@@ -33,27 +33,25 @@ class Routes extends Component {
               />
             </FormGroup>
           </Form>
-          <CreateRoutes />
+          {/* <CreateRoutes /> */}
         </div>
         <TableSchedules responsive bordered>
           <thead>
             <tr>
               <th>No</th>
-              <th>Start</th>
-              <th>Destination</th>
+              <th>Name</th>
               <th className= 'table-options'>Options</th>
             </tr>  
           </thead>
 
             <tbody>
-        { this.props.Route.data.data && this.props.Route.data.data.map((v,i)=>{
+        { this.props.Agent.data.data && this.props.Agent.data.data.map((v,i)=>{
             return (
               <tr>
                 <th scope='row' key = { i }>{ i + 1} </th>
-                <td>{v.start}</td>
-                <td>{v.end}</td>
+                <td>{v.name}</td>
                 <td>
-                  <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span>
+                  {/* <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span> */}
                   <span onClick={()=> this.props.deleteRoutes(v.id)}> <AiOutlineDelete /> </span>
                 </td>
               </tr>
@@ -94,8 +92,8 @@ class Routes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    Route: state.Routes
+    Agent: state.Agent
   }
 }
-const mapDispatchToProps = {showRoutes, deleteRoutes}
-export default connect(mapStateToProps, mapDispatchToProps) (Routes)
+const mapDispatchToProps = {GetDataAgent}
+export default connect(mapStateToProps, mapDispatchToProps) (Agent)
