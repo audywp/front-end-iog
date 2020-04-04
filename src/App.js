@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Navbar from './Components/Navbar'
 import Dashoard from './Pages/Dashboard'
 import {BrowserRouter, Router, Route, Switch} from 'react-router-dom'
-import CreateBusses from './Pages/Busses/CreateBusses'
 import history from './utils/history'
 
 
@@ -12,11 +11,9 @@ export default class App extends Component {
       <>
         <BrowserRouter>
           <Router history={history}>
-            <Navbar/>
-            <CreateBusses />
+            <Navbar/>          
             <Switch>
-              <Route path='/dashboard' render={() => <Dashoard />} />
-              
+              <Route path='/dashboard' render={(props) => <Dashoard {...props} />} />
             </Switch>
           </Router>
         </BrowserRouter>

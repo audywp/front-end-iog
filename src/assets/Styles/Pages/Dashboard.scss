@@ -95,11 +95,38 @@
         }
 
         .col-md-12{
-          margin-top: 60px;
+          margin-top: 30px;
           .table-responsive{
             font-size: 18px;
           }
+          .pagination-bus {
+            background: none !important;
+            margin-top: 10px;
+            nav{
+              display: flex;
+              justify-content: center;
+              background: none !important;
+              ul{
+                background: none !important;
 
+                .page-item{
+                  background-color: none !important;
+                  border-radius: 5px;
+
+                  a{
+                    background: none;
+                    color: #ddd;
+                  }
+                  span{
+                    font-size: 18px;
+                  }
+                }
+                .page-item:hover{
+                  background-color: rgba(61,58,67, 0.6);
+                }
+              }
+            }
+          }
         }
       }
     }

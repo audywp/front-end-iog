@@ -26,7 +26,7 @@ const UpdateBus = styled(Form) `
     box-shadow: none;
   }
 `
-class CreateBusses extends Component {
+class CreateRoutes extends Component {
 
   constructor(props) {
     super(props)
@@ -161,4 +161,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addBus}) (CreateBusses)
+export default connect(mapStateToProps, {addBus}) (CreateRoutes)

@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Container, Row, Col} from 'reactstrap'
 // import styled from 'styled-components'
-import {Link, BrowserRouter, Route,} from 'react-router-dom'
-import { FaBusAlt, FaRoute, FaUserFriends } from 'react-icons/fa'
+import {Link, BrowserRouter, Route as Rute, Switch} from 'react-router-dom'
+import { FaSearch, FaBusAlt, FaRoute, FaUserFriends } from 'react-icons/fa'
 import { AiOutlineSchedule } from 'react-icons/ai'
 import '../assets/Styles/Pages/Dashboard.scss'
 import Doughnut from '../Components/Chart/Doughnut'
 import Card from '../Components/Card'
 import Busses from './Busses/Busses'
-
+import Routes  from './Routes/Routes'
+import '../assets/Styles/Pages/Statis.scss'
 
 export default class Dashboard extends Component {
   render() {
@@ -37,9 +38,12 @@ export default class Dashboard extends Component {
                   <Card total={24} module='Schedule' icon={< AiOutlineSchedule />} />
                 </Col>
               </Row>
-              <Row>
+              <Row className='dataStatistik'>
                 <Col md={12}>
-                  <Route path='/dashboard/bus' exact render={() => <Busses />} />
+                  <Switch>
+                    <Rute component= { Busses } path='/dashboard/bus' exact />
+                    <Rute component= { Routes } path='/dashboard/routes' exact />
+                  </Switch>
                 </Col>
               </Row>
             </Col>

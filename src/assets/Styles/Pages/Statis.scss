@@ -1,0 +1,61 @@
+.dataStatistik{
+  .utils{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    form{
+      display: flex;
+      align-items: center;
+      .form-group{
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        input {
+          width: 250px;
+          border: none;
+          background: none;
+          outline: none;
+          box-shadow: none;
+          border-bottom: 1px solid #ddd;
+          border-radius: 0;
+        }
+        input::placeholder{
+          color: #bbb !important;
+          font-size: 18px !important;
+        }
+        label{
+          font-size: 26px;
+          padding: 0 10px;
+          background: none;
+          border: none;
+          outline: none;
+          border-left: 1px solid #Ddd;
+          border-bottom: 1px solid #ddd;
+          margin-top: 6px;
+          border-radius: 0 0 0 7px !important;
+          svg{
+            color: #ddd;
+            
+          }
+        }
+      }
+    }
+
+    .btn-group{
+      border-radius: 8px;
+      .createButton{
+        background: linear-gradient(to top right, rgb(81, 124, 233), rgb(39, 71, 151));
+        width: 100px;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        transition: 0.5s ease;
+      }
+      .createButton:hover{
+        transform: scale(1.05);
+      }
+    }
+  }
+}

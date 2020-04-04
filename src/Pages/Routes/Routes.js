@@ -1,38 +1,26 @@
 import React, { Component } from 'react'
 import { Table, Input, Form, FormGroup,Label, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap'
-import styled from 'styled-components'
-import { AiOutlineDelete } from 'react-icons/ai'
-import {FaSearch} from 'react-icons/fa'
-import { getBus, updateBus,deleteBus } from '../../Redux/actions/Admin/Busses'
 import {connect} from 'react-redux'
-import CreateBusses from './CreateBusses' 
-import EditBusses from './EditBusses'
+import {AiOutlineDelete} from 'react-icons/ai'
+import {FaSearch} from 'react-icons/fa'
+import CreateRoutes from './CreateRoutes'
+import EditRoutes from './EditRoutes'
+import {showRoutes, deleteRoutes} from '../../Redux/actions/Admin/Route'
+import styled from 'styled-components'
 
-const TableData = styled(Table)`
-  color: #ddd
+const TableSchedules = styled(Table)`
+  color: #ddd;
 `
-class Busses extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-    }
-  }
+class Routes extends Component {
+  
   componentDidMount() {
-    this.props.getBus()
-    this.props.deleteBus(this.props.id)
+    this.props.showRoutes()
+    // this.props.deleteRoutes(this.props.id)
   }
-
-  updateData = (id, data) => {
-    this.props.updateBus(id, data)
-    this.props.getBus()
-    alert('ok')
-  }
-
   render() {
     return (
       <>
-
-        <div className="utils">
+       <div className="utils">
           <Form>
             <FormGroup>
               <Label for='search'>
@@ -46,38 +34,35 @@ class Busses extends Component {
               />
             </FormGroup>
           </Form>
-          <CreateBusses />
+          <CreateRoutes />
         </div>
-        <TableData responsive bordered>
+        <TableSchedules responsive bordered>
           <thead>
             <tr>
-              <th class="text-center">No</th>
-              <th>Name</th>
-              <th>Class</th>
-              <th class="text-center">Seat</th>
-              <th className= 'table-options text-center' >Options</th>
+              <th>No</th>
+              <th>Start</th>
+              <th>Destination</th>
+              <th className= 'table-options'>Options</th>
             </tr>  
           </thead>
 
             <tbody>
-        { this.props.Bus.data.data && this.props.Bus.data.data.map((v,i)=>{
+        { this.props.Route.data.data && this.props.Route.data.data.map((v,i)=>{
             return (
               <tr>
-                <th class="text-center" scope='row' key = { i }>{ i + 1} </th>
-                <td>{v.car_name}</td>
-                <td>{v.bus_class}</td>
-                <td class="text-center">{v.bus_seat}</td>
-                <td class="text-center">
-                  <span><EditBusses updateData={this.updateData} match='update' id={`${v.id}`} /></span>
-                  <span onClick={()=> this.props.deleteBus(v.id)}> <AiOutlineDelete /> </span>
+                <th scope='row' key = { i }>{ i + 1} </th>
+                <td>{v.start}</td>
+                <td>{v.end}</td>
+                <td>
+                  <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span>
+                  <span onClick={()=> this.props.deleteRoutes(v.id)}> <AiOutlineDelete /> </span>
                 </td>
               </tr>
             )
           })
         }
             </tbody>
-            
-        </TableData>
+        </TableSchedules>
         <Container className='pagination-bus'>
           <Pagination size="lg" aria-label="Page navigation example">
             <PaginationItem>
@@ -110,8 +95,8 @@ class Busses extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    Bus : state.Busses
+    Route: state.Routes
   }
 }
-const mapDispatchToProps = {getBus, updateBus, deleteBus}
-export default connect(mapStateToProps, mapDispatchToProps)(Busses)
+const mapDispatchToProps = {showRoutes, deleteRoutes}
+export default connect(mapStateToProps, mapDispatchToProps) (Routes)
