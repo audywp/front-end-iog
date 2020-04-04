@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Button, Container, FormGroup, Input, Label,Form} from 'reactstrap'
 import {MdKeyboardBackspace} from 'react-icons/md'
 import {AiOutlineForm} from 'react-icons/ai'
-import {updateBus} from '../../Redux/actions/Admin/Busses'
+import {UpdateRoutes} from '../../Redux/actions/Admin/Route'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import history from '../../utils/history'
@@ -38,9 +38,8 @@ class EditRoutes extends Component {
     super (props)
     this.state= {
       id: 0,
-      nameBus: '',
-      busClass: '',
-      seat: 0,
+      start: '',
+      end: '',
       modal: false,
       isLoading: false,
     }
@@ -61,12 +60,11 @@ class EditRoutes extends Component {
   onUpdate = (e) => {
     e.preventDefault()
     const data = {
-      nameCar:this.state.nameBus,
-      busClass: this.state.busClass,
-      seat: this.state.seat
+      start:this.state.start,
+      end: this.state.end,
     }
     console.log(data)
-    this.props.updateData(this.props.id, data)
+    this.props.UpdateRoutes(this.props.id, data)
     
   }
 
@@ -84,36 +82,25 @@ class EditRoutes extends Component {
           <UpdateBus className='form-updateBusess'>
           <Form method='post' onSubmit= {this.onUpdate}>
             <FormGroup>
-              <Label for='name'>Bus Name</Label>
+              <Label for='name'>Start From</Label>
               <Input
                 onChange = {this.onHandleChange}
                 type = 'text'
-                name = 'nameBus'
-                id = 'name'
-                value = {this.state.nameBus}
-                placeholder = 'Name'
+                name = 'start'
+                id = 'Start'
+                value = {this.state.start}
+                placeholder = 'Start'
               />
             </FormGroup>
             <FormGroup>
-              <Label for='Class'>Class</Label>
+              <Label for='Class'>Destination</Label>
               <Input
                 onChange = {this.onHandleChange}
                 type = 'text'
-                name = 'busClass'
-                id = 'Class'
-                value = {this.state.busClass}
-                placeholder = 'Class'
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for='Seat'>Seat</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'text'
-                name = 'seat'
-                value = {this.state.seat}
-                id = 'Seat'
-                placeholder = 'Seat'
+                name = 'end'
+                id = 'Destination'
+                value = {this.state.end}
+                placeholder = 'Destination'
               />
             </FormGroup>
             
@@ -131,8 +118,8 @@ class EditRoutes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    Bus : state.Busses
+    Route: state.Routes
   }
 }
 
-export default connect(mapStateToProps, {updateBus}) (EditRoutes)
+export default connect(mapStateToProps, {UpdateRoutes}) (EditRoutes)

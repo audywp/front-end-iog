@@ -35,3 +35,37 @@ export const deleteRoutes = (id) => async dispatch => {
     console.log(error)
   }
 }
+
+export const CreateRoutes = (id, data) => async dispatch => {
+  try{
+    const res = await axios.post(Config.APP_BACKEND.concat(`admin/route/add/${id}`), data)
+    if(res) {
+      alert ('ok')
+    } else {
+      alert('failed')
+    }
+    dispatch({
+      type: 'ADD_ROUTES',
+      payload:res.data
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const UpdateRoutes = (id, data) => async dispatch => {
+  try{
+    const res = await axios.patch(Config.APP_BACKEND.concat(`admin/route/update/${id}`), data)
+    if (res) {
+      alert('success')
+    } else {
+      alert('failed')
+    }
+    dispatch({
+      type: 'UPDATE_ROUTES',
+      payload:res.data
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

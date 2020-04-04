@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Modal,Container, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import styled from 'styled-components'
 import {MdKeyboardBackspace} from 'react-icons/md'
-import { addBus } from '../../Redux/actions/Admin/Busses'
+import { CreateRoutes as addRoute } from '../../Redux/actions/Admin/Route'
 import {connect} from 'react-redux'
 const UpdateBus = styled(Form) `
   display: block;
@@ -33,9 +33,8 @@ class CreateRoutes extends Component {
 
     this.state = {
       id: 0,
-      nameBus: '',
-      busClass: '',
-      seat: 0,
+      start: '',
+      end: '',
       modal: false,
       isLoading: false,
       isOpenDropdwon: false
@@ -63,14 +62,13 @@ class CreateRoutes extends Component {
     this.onCreate = (e) => {
       e.preventDefault()
       const data = {
-        nameBuss:this.state.nameBus,
-        busClass: this.state.busClass,
-        busSeat: this.state.seat
+        start:this.state.start,
+        end: this.state.end,
       }
       console.log(data)
       
       console.log(this.state.id)
-      this.props.addBus(this.state.id, data)
+      this.props.addRoute(this.state.id, data)
     }
     
     this.incrementId1 = () => {
@@ -114,33 +112,23 @@ class CreateRoutes extends Component {
           <UpdateBus className='form-updateBusess'>
           <Form method='post' onSubmit= {this.onCreate}>
             <FormGroup>
-              <Label for='name'>Bus Name</Label>
+              <Label for='name'>Start From</Label>
               <Input
                 onChange = {this.onHandleChange}
                 type = 'text'
-                name = 'nameBus'
-                id = 'name'
-                placeholder = 'Name'
+                name = 'start'
+                id = 'Start'
+                placeholder = 'Start'
               />
             </FormGroup>
             <FormGroup>
-              <Label for='Class'>Class</Label>
+              <Label for='Class'>Destination</Label>
               <Input
                 onChange = {this.onHandleChange}
                 type = 'text'
-                name = 'busClass'
-                id = 'Class'
-                placeholder = 'Class'
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for='Seat'>Seat</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'text'
-                name = 'seat'
-                id = 'Seat'
-                placeholder = 'Seat'
+                name = 'end'
+                id = 'Destination'
+                placeholder = 'Destination'
               />
             </FormGroup>
             
@@ -157,8 +145,8 @@ class CreateRoutes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    Bus : state.Busses
+    Route: state.Routes
   }
 }
 
-export default connect(mapStateToProps, {addBus}) (CreateRoutes)
+export default connect(mapStateToProps, {addRoute}) (CreateRoutes)
