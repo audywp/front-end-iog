@@ -5,8 +5,8 @@ import {MdKeyboardBackspace} from 'react-icons/md'
 import { FiUser, FiLock } from 'react-icons/fi'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import {setLogin} from '../Redux/actions/isLogin'
-
+import {setLogin, isLogout} from '../Redux/actions/isLogin'
+import history from '../utils/history'
 
 class Login extends Component {
   constructor(props){
@@ -16,6 +16,17 @@ class Login extends Component {
       password : '',
       modal: false,
       toggle: false,
+      inLogin: ''
+    }
+
+    if (localStorage.getItem('token')) {
+      this.setState({
+        inLogin: this.state.inLogin = 'Logout'
+      })
+    } else {
+      this.setState({
+        inLogin: this.state.inLogin = 'Login'
+      })
     }
 
     this.openModal = (e) => {
@@ -28,6 +39,22 @@ class Login extends Component {
       this.setState({
         modal: !this.state.modal
       })
+    }
+
+    this.toggleLogin = () => {
+      if (localStorage.getItem('token')) {
+        localStorage.removeItem('token')
+        this.setState({
+          modal: this.state.modal
+        })
+        history.push('/')
+      } else if(!localStorage.getItem('token')) {
+        this.setState({
+          modal: !this.state.modal
+        })
+      } else {
+        console.log('nothing happen')
+      }
     }
 
     this.handleChange = (e) =>{
@@ -53,7 +80,7 @@ class Login extends Component {
   render(){
     return(
       <>
-      <span style = {{cursor:'pointer'}} onClick={this.toggle}>Login</span>
+      <span style = {{cursor:'pointer'}} onClick={this.toggleLogin}>{this.state.inLogin}</span>
       <Modal className='modalLogin' isOpen = {this.state.modal}>
         <Container>
           <div onClick={this.toggle} className="backHome">
@@ -102,5 +129,5 @@ const mapStateToProps = (state) => {
     data: state.isLogin 
   }
 }
-const mapDispatchToProps = {setLogin}
+const mapDispatchToProps = {setLogin, isLogout}
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

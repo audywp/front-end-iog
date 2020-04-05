@@ -16,7 +16,18 @@ class Navbar extends Component {
     super(props)
     this.state = {
       open : false,
-      close : true
+      close : true,
+      inLogin : ''
+    }
+
+    if (localStorage.getItem('token')) {
+      this.setState({
+        inLogin: 'Logout'
+      })
+    } else {
+      this.setState({
+        inLogin: 'Login'
+      })
     }
   }
 

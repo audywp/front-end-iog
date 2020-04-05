@@ -7,7 +7,7 @@ import CreateRoutes from './CreateRoutes'
 import EditRoutes from './EditRoutes'
 import {showRoutes, deleteRoutes} from '../../Redux/actions/Admin/Route'
 import styled from 'styled-components'
-import GetIdRoutes from '../Schedules/GetIdRoutes'
+// import GetIdRoutes from '../Schedules/GetIdRoutes'
 
 const TableSchedules = styled(Table)`
   color: #ddd;
@@ -34,7 +34,7 @@ class Routes extends Component {
               />
             </FormGroup>
           </Form>
-          <GetIdRoutes />
+          <CreateRoutes />
         </div>
         <TableSchedules responsive bordered>
           <thead>

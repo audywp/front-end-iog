@@ -16,15 +16,32 @@ import {getBus} from '../Redux/actions/Admin/Busses'
 import {showRoutes} from '../Redux/actions/Admin/Route'
 import {GetSchedules} from '../Redux/actions/Admin/Schedules'
 import { connect } from 'react-redux'
+import history from '../utils/history'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 class Dashboard extends Component {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      show : false
+    }
+    if (!localStorage.getItem('token')) {
+      Swal.fire({
+        title: 'Sorry!',
+        text: 'You must login to access this feature',
+        icon: 'warning',
+        confirmButtonText: 'Exit'
+      })
+      history.push('/')
+      
+    }
+  }
 
   componentDidMount(){
     this.props.getBus()
     this.props.showRoutes()
     this.props.GetSchedules()
-    console.log(this.props.Bus.data.pageInfo.totalData)
   }
   render() {
     return (
