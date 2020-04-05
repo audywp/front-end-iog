@@ -39,10 +39,10 @@ class Busses extends Component {
                 <FaSearch/>
               </Label>
               <Input
-              id='search'
-              type= 'text'
-              name= 'search'
-              placeholder= 'search'
+                id='search'
+                type= 'text'
+                name= 'search'
+                placeholder= 'search'
               />
             </FormGroup>
           </Form>

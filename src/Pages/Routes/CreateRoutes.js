@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Modal,Container, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Modal,Container } from 'reactstrap';
 import styled from 'styled-components'
 import {MdKeyboardBackspace} from 'react-icons/md'
 import { CreateRoutes as addRoute } from '../../Redux/actions/Admin/Route'
@@ -32,7 +32,7 @@ class CreateRoutes extends Component {
     super(props)
 
     this.state = {
-      id: 0,
+      id: 2,
       start: '',
       end: '',
       modal: false,
@@ -78,7 +78,7 @@ class CreateRoutes extends Component {
     }
     this.incrementId2 = () => {
       this.setState({
-        id: this.state.id + 2
+        id: 2
       })
     }
     this.incrementId3 = () => {
@@ -92,16 +92,10 @@ class CreateRoutes extends Component {
   render() {
     return (
       <>
-      <ButtonDropdown isOpen={this.state.isOpenDropdwon} toggle={this.toggleDropdown}>
-        <DropdownToggle className='createButton'>
-          ADD
-        </DropdownToggle>
-        <DropdownMenu className>
-          <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleMOdal}><span onClick={this.incrementId1}>Agen 1</span></DropdownItem>
-          <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleMOdal}><span onClick={this.incrementId2}>Agen 2</span></DropdownItem>
-          <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleMOdal}> <span onClick={this.incrementId3}>Agen 3</span> </DropdownItem>
-        </DropdownMenu>
-      </ButtonDropdown>
+        <Button onClick={this.toggleMOdal}>
+          <span onClick={this.incrementId2}>ADD</span>
+        </Button>
+       
      
       
       <Modal className='modalLogin' isOpen = {this.state.modal} toogle={this.toggleMOdal}>

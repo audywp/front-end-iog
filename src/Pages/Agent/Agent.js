@@ -5,7 +5,7 @@ import {AiOutlineDelete} from 'react-icons/ai'
 import {FaSearch} from 'react-icons/fa'
 // import CreateRoutes from './CreateRoutes'
 // import EditRoutes from './EditRoutes'
-import {GetDataAgent} from '../../Redux/actions/Admin/Agent'
+import {GetDataAgent,DeleteAgent} from '../../Redux/actions/Admin/Agent'
 import styled from 'styled-components'
 
 const TableSchedules = styled(Table)`
@@ -40,7 +40,6 @@ class Agent extends Component {
             <tr>
               <th>No</th>
               <th>Name</th>
-              <th className= 'table-options'>Options</th>
             </tr>  
           </thead>
 
@@ -50,10 +49,10 @@ class Agent extends Component {
               <tr>
                 <th scope='row' key = { i }>{ i + 1} </th>
                 <td>{v.name}</td>
-                <td>
-                  {/* <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span> */}
-                  <span onClick={()=> this.props.deleteRoutes(v.id)}> <AiOutlineDelete /> </span>
-                </td>
+                {/* <td>
+                  <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span>
+                  <span onClick={()=> this.props.DeleteAgent(v.id)}> <AiOutlineDelete /> </span>
+                </td> */}
               </tr>
             )
           })
@@ -95,5 +94,5 @@ const mapStateToProps = (state) => {
     Agent: state.Agent
   }
 }
-const mapDispatchToProps = {GetDataAgent}
+const mapDispatchToProps = {GetDataAgent,DeleteAgent}
 export default connect(mapStateToProps, mapDispatchToProps) (Agent)

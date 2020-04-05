@@ -1,61 +1,70 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 import { Modal, Button, Container, FormGroup, Input, Label,Form} from 'reactstrap'
 import '../assets/Styles/Pages/Login.scss'
 import {MdKeyboardBackspace} from 'react-icons/md'
 import { FiUser, FiLock } from 'react-icons/fi'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import setLogin from '../Redux/actions/isLogin'
-import Config from '../utils/Config'
-import axios from 'axios'
-const Login = (props) => {
-  
-  const [modal, setModal] = useState(false)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLogin, setIsLogin] = useState(false)
-  const toggle = () => setModal(!modal)
+import {setLogin} from '../Redux/actions/isLogin'
 
-  const submitUsername = (e) => {
-    setUsername(e.target.value)
-  }
-  const submitPassword = (e) => {
-    setPassword(e.target.value)
-  }
-  
-  const onLogin = async (e) => {
-    e.preventDefault()
-    const endPoint = Config.APP_BACKEND.concat('user/login')
-    const params = {
-    username,
-    password
-  }
-  const infoLogin = await axios.post(endPoint, params)
-    if (infoLogin.data.success === true) {
-      localStorage.setItem('token', infoLogin.data.token)
-      setIsLogin({
-        isLogin : !isLogin
+
+class Login extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      username : '',
+      password : '',
+      modal: false,
+      toggle: false,
+    }
+
+    this.openModal = (e) => {
+      this.setState({
+        modal:this.state.modal
       })
-    } else {
-      console.log(infoLogin)
+    }
+
+    this.toggle = () => {
+      this.setState({
+        modal: !this.state.modal
+      })
+    }
+
+    this.handleChange = (e) =>{
+      this.setState({
+        [e.target.name] : e.target.value
+      })
+    }
+
+    this.onLogin = (e) => {
+      e.preventDefault()
+      const data = {
+        username: this.state.username,
+        password: this.state.password
+      }
+
+      this.props.setLogin(data)
+      console.log(this.props.setLogin)
+      // console.log(this.props.Login)
+
     }
   }
-  
 
-  return (
-    <>
-      <span style = {{cursor:'pointer'}} onClick={toggle}>Login</span>
-      <Modal className='modalLogin' isOpen = {modal} toogle={toggle}>
+  render(){
+    return(
+      <>
+      <span style = {{cursor:'pointer'}} onClick={this.toggle}>Login</span>
+      <Modal className='modalLogin' isOpen = {this.state.modal}>
         <Container>
-          <div onClick={toggle} className="backHome">
+          <div onClick={this.toggle} className="backHome">
             <MdKeyboardBackspace/><span>Back to home</span>
           </div>
           <Container className='form-login'>
-          <Form method='post' onSubmit = {onLogin}>
+          <Form method='post' onSubmit = {this.onLogin}>
             <FormGroup>
               <Label for='username'><FiUser /></Label>
               <Input 
-                onChange = {submitUsername}
+                onChange = {this.handleChange}
                 type = 'text'
                 name = 'username'
                 id = 'username'
@@ -65,7 +74,7 @@ const Login = (props) => {
             <FormGroup>
               <Label for='password'><FiLock /></Label>
               <Input 
-                onChange = {submitPassword}
+                onChange = {this.handleChange}
                 type = 'password'
                 name = 'password'
                 id = 'password'
@@ -84,12 +93,13 @@ const Login = (props) => {
         </Container>
       </Modal>
     </>
-  )
+    )
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    data: state.isLogin
+    data: state.isLogin 
   }
 }
 const mapDispatchToProps = {setLogin}

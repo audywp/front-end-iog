@@ -1,23 +1,6 @@
 import Config from '../../../utils/Config'
 import Axios from 'axios'
 Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-// export const getAllDataBusses = (getDatabus) => {
-//   console.log(getDatabus)
-//   return {
-//     type: 'GET_BUSSES',
-//     payload: getDatabus.data
-//   }
-// }
-
-// export const getDataBusses = () => {
-//   const endPoint = Config.APP_BACKEND.concat('agent/bus')
-//   return dispatch => {
-//     return Axios.get(endPoint)
-//     .then(getDatabus => {
-//       dispatch(getAllDataBusses(getDatabus))
-//     })
-//   }
-// } 
 
 export const getBus = ()=> async dispatch => {
   const endPoint = Config.APP_BACKEND.concat('admin/bus')

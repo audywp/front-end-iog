@@ -3,9 +3,12 @@ import Navbar from './Components/Navbar'
 import Dashoard from './Pages/Dashboard'
 import {BrowserRouter, Router, Route, Switch} from 'react-router-dom'
 import history from './utils/history'
+import Schedules from './Pages/Schedules/Schedules'
+import GetIdRoutes from './Pages/Schedules/GetIdRoutes'
 
 
 export default class App extends Component {
+
   render() {
     return (
       <>

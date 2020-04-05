@@ -3,19 +3,27 @@ import { Table, Input, Form, FormGroup,Label, Pagination, PaginationItem, Pagina
 import {connect} from 'react-redux'
 import {AiOutlineDelete} from 'react-icons/ai'
 import {FaSearch} from 'react-icons/fa'
-import CreateRoutes from './CreateRoutes'
-import EditRoutes from './EditRoutes'
-import {showRoutes, deleteRoutes} from '../../Redux/actions/Admin/Route'
+import CreateSchedules from './CreateSchedules'
+// import EditRoutes from './EditRoutes'
+import {GetSchedules} from '../../Redux/actions/Admin/Schedules'
 import styled from 'styled-components'
-import GetIdRoutes from '../Schedules/GetIdRoutes'
 
 const TableSchedules = styled(Table)`
   color: #ddd;
 `
-class Routes extends Component {
+class Schedules extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      idRoute : 0,
+      idBus : 0,
+    }
+  }
   
   componentDidMount() {
-    this.props.showRoutes()
+    this.props.GetSchedules()
+    console.log(this.props.id)
   }
   render() {
     return (
@@ -34,27 +42,35 @@ class Routes extends Component {
               />
             </FormGroup>
           </Form>
-          <GetIdRoutes />
+          <CreateSchedules/>
         </div>
         <TableSchedules responsive bordered>
           <thead>
             <tr>
               <th>No</th>
+              <th>Bus Name</th>
+              <th>Bus Seat</th>
               <th>Start</th>
-              <th>Destination</th>
+              <th>End</th>
+              <th>Price</th>
+              <th>Time</th>
               <th className= 'table-options'>Options</th>
             </tr>  
           </thead>
 
             <tbody>
-        { this.props.Route.data.data && this.props.Route.data.data.map((v,i)=>{
+        { this.props.Schedules.data.result && this.props.Schedules.data.result.map((v,i)=>{
             return (
               <tr>
                 <th scope='row' key = { i }>{ i + 1} </th>
+                <td>{v.car_name}</td>
+                <td>{v.bus_seat}</td>
                 <td>{v.start}</td>
                 <td>{v.end}</td>
+                <td>{v.price}</td>
+                <td>{v.departure_time}</td>
                 <td>
-                  <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span>
+                  {/* <span><CreateSchedules updateData={this.updateData} match='update' id={`${v.id}`} /></span> */}
                   <span onClick={()=> this.props.deleteRoutes(v.id)}> <AiOutlineDelete /> </span>
                 </td>
               </tr>
@@ -95,8 +111,9 @@ class Routes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    Route: state.Routes
+    Schedules: state.Schedules,
+
   }
 }
-const mapDispatchToProps = {showRoutes, deleteRoutes}
-export default connect(mapStateToProps, mapDispatchToProps) (Routes)
+const mapDispatchToProps = {GetSchedules}
+export default connect(mapStateToProps, mapDispatchToProps) (Schedules)

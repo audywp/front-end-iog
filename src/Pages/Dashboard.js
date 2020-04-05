@@ -11,6 +11,7 @@ import Busses from './Busses/Busses'
 import Routes  from './Routes/Routes'
 import Agent from './Agent/Agent'
 import '../assets/Styles/Pages/Statis.scss'
+import Schedules from './Schedules/Schedules'
 
 export default class Dashboard extends Component {
   render() {
@@ -46,6 +47,7 @@ export default class Dashboard extends Component {
                     <Rute component= { Busses } path='/dashboard/bus' exact />
                     <Rute component= { Agent } path= '/dashboard/agents' exact/>
                     <Rute component= { Routes } path='/dashboard/routes' exact />
+                    <Rute component= { Schedules } path='/dashboard/schedules' exact />
                   </Switch>
                 </Col>
               </Row>

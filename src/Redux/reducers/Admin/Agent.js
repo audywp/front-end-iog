@@ -23,7 +23,12 @@ export default function Agent (state=initState, action) {
         isLoading: false,
         data: action.payload
       }
-  
+    case 'MAKE_AGENT':
+      return{
+        ...state,
+        isLoading: false,
+        data: action.payload
+      }
     default:
       return { ...state };
   }
