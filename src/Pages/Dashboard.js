@@ -12,8 +12,20 @@ import Routes  from './Routes/Routes'
 import Agent from './Agent/Agent'
 import '../assets/Styles/Pages/Statis.scss'
 import Schedules from './Schedules/Schedules'
+import {getBus} from '../Redux/actions/Admin/Busses'
+import {showRoutes} from '../Redux/actions/Admin/Route'
+import {GetSchedules} from '../Redux/actions/Admin/Schedules'
+import { connect } from 'react-redux'
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
+
+
+  componentDidMount(){
+    this.props.getBus()
+    this.props.showRoutes()
+    this.props.GetSchedules()
+    console.log(this.props.Bus.data.pageInfo.totalData)
+  }
   render() {
     return (
       <>
@@ -36,9 +48,9 @@ export default class Dashboard extends Component {
                   <Doughnut />
                 </Col>
                 <Col md={8}>
-                  <Card total={73} module='Bus' icon={< FaUserFriends />} />
-                  <Card total={40} module='Route' icon={< FaRoute />} />
-                  <Card total={24} module='Schedule' icon={< AiOutlineSchedule />} />
+                  <Card total={this.props.Bus.data.pageInfo && this.props.Bus.data.pageInfo.totalData} module='Bus' icon={< FaUserFriends />} />
+                  <Card total={this.props.Routes.data.pageInfo && this.props.Routes.data.pageInfo.totalData} module='Route' icon={< FaRoute />} />
+                  <Card total={this.props.Schedules.data.pageInfo && this.props.Schedules.data.pageInfo.totalData} module='Schedule' icon={< AiOutlineSchedule />} />
                 </Col>
               </Row>
               <Row className='dataStatistik'>
@@ -59,3 +71,13 @@ export default class Dashboard extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    Bus: state.Busses,
+    Routes: state.Routes,
+    Schedules: state.Schedules
+  }
+}
+
+export default connect(mapStateToProps, {getBus, showRoutes, GetSchedules}) (Dashboard)
