@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Table, Input, Form, FormGroup,Label, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap'
 import {connect} from 'react-redux'
-import {AiOutlineDelete} from 'react-icons/ai'
+import {AiOutlineDelete, AiOutlineForm} from 'react-icons/ai'
 import {FaSearch} from 'react-icons/fa'
 import CreateSchedules from './CreateSchedules'
 // import EditRoutes from './EditRoutes'
-import {GetSchedules} from '../../Redux/actions/Admin/Schedules'
+import {GetSchedules, DeleteSchedules} from '../../Redux/actions/Admin/Schedules'
 import styled from 'styled-components'
 
 const TableSchedules = styled(Table)`
@@ -69,9 +69,9 @@ class Schedules extends Component {
                 <td>{v.end}</td>
                 <td>{v.price}</td>
                 <td>{v.departure_time}</td>
-                <td>
-                  {/* <span><CreateSchedules updateData={this.updateData} match='update' id={`${v.id}`} /></span> */}
-                  <span onClick={()=> this.props.deleteRoutes(v.id)}> <AiOutlineDelete /> </span>
+                <td className='iconData'>
+                  <span><AiOutlineForm/></span>
+                  <span onClick={()=> this.props.DeleteSchedules(v.id)}> <AiOutlineDelete /> </span>
                 </td>
               </tr>
             )
@@ -115,5 +115,5 @@ const mapStateToProps = (state) => {
 
   }
 }
-const mapDispatchToProps = {GetSchedules}
+const mapDispatchToProps = {GetSchedules,DeleteSchedules}
 export default connect(mapStateToProps, mapDispatchToProps) (Schedules)

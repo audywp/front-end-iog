@@ -44,7 +44,7 @@ class Login extends Component {
       }
 
       this.props.setLogin(data)
-      console.log(this.props.setLogin)
+      console.log(this.props.data.isLogged)
       // console.log(this.props.Login)
 
     }
@@ -86,7 +86,7 @@ class Login extends Component {
                 <Input type="checkbox" /> Remember Me!
               </Label>
             </FormGroup>
-            <Button type='submit' className='buttonLogin'>Login</Button>
+            <Button onClick={this.toggle} type='submit' className='buttonLogin'>Login</Button>
             </Form>
           </Container>
           <Link className='forgotpassword' to='/forgotpassword'>Forgot your password ?</Link>

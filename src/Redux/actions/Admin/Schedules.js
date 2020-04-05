@@ -29,3 +29,18 @@ export const CreateSchedules = (idBus, idRoute, data) => async dispatch => {
     console.log(error)
   }
 }
+
+export const DeleteSchedules = (id) => async dispatch => {
+  try {
+    const res = await axios.delete(Config.APP_BACKEND.concat(`admin/schedule/delete/${id}`))
+  
+    if (res) {
+      alert('succes delete')
+    } else {
+      alert('failed')
+    }
+  
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -38,9 +38,9 @@ class CreateSchedules extends Component {
       idBus: 0,
       idRoute: 0,
       price: 0,
-      dapartureTime: '',
-      arriveTime: '',
-      dapartureDate: '',
+      departureTime: '21:21:21',
+      arriveTime: '20:20:20',
+      departureDate: '01-01-1999',
       modal: false,
       isLoading: false,
       isOpenDropdwon1: false,
@@ -89,9 +89,9 @@ class CreateSchedules extends Component {
       e.preventDefault()
       const data = {
         price: this.state.price,
-        departureTime: this.state.dapartureTime,
+        departureTime: this.state.departureTime,
         arriveTime: this.state.arriveTime,
-        departureDate: this.state.dapartureDate,
+        departureDate: this.state.departureDate,
       }
       console.log(data)
       
@@ -113,9 +113,9 @@ class CreateSchedules extends Component {
           <span>ADD</span>
         </Button>
       
-      <Modal className='modalLogin' isOpen = {this.state.modal} toogle={this.toggleMOdal}>
+      <Modal className='modalLogin' isOpen = {this.state.modal} toogle={this.toggleModal}>
         <Container>
-          <div onClick={this.toggleMOdal} className="backHome">
+          <div onClick={this.toggleModal} className="backHome">
             <MdKeyboardBackspace/><span>Back to home</span>
           </div>
           <UpdateBus className='form-updateBusess'>
@@ -128,7 +128,7 @@ class CreateSchedules extends Component {
             {this.props.Bus.data.data && this.props.Bus.data.data.map((bus, i) => {
               return (
                 <div key = { i }>
-                  <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleMOdal}> <span onClick={()=> this.setIdbus(bus.id)}>{bus.id} - {bus.car_name} </span> </DropdownItem>
+                  <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleModal}> <span onClick={()=> this.setIdbus(bus.id)}>{bus.id} - {bus.car_name} </span> </DropdownItem>
                 </div>
               )
             })}
@@ -141,7 +141,7 @@ class CreateSchedules extends Component {
             Choose Route
           </DropdownToggle>
           <DropdownMenu>
-            {this.props.Route.data.data.length && this.props.Route.data.data.map((route, i) => {
+            {this.props.Route.data.data && this.props.Route.data.data.map((route, i) => {
               return (
                 <div key = { i }>
                   <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleMOdal}> <span onClick={()=> this.setRoute(route.id)}>{route.start} - {route.end} </span> </DropdownItem>
@@ -198,7 +198,7 @@ class CreateSchedules extends Component {
               <Label for='departureTime'>Departure Time</Label>
               <Input
                 onChange = {this.onHandleChange}
-                type = 'text'
+                type = 'time'
                 name = 'departureTime'
                 id = 'departureTime'
                 placeholder = 'Departure Time'
@@ -209,7 +209,7 @@ class CreateSchedules extends Component {
               <Label for='arriveTime'>Arrive Time</Label>
               <Input
                 onChange = {this.onHandleChange}
-                type = 'text'
+                type = 'time'
                 name = 'arriveTime'
                 id = 'arriveTime'
                 placeholder = 'Arrive Time'
@@ -220,7 +220,7 @@ class CreateSchedules extends Component {
               <Label for='departureDate'>Departure Date</Label>
               <Input
                 onChange = {this.onHandleChange}
-                type = 'text'
+                type = 'date'
                 name = 'departureDate'
                 id = 'departureDate'
                 placeholder = 'Departure Date'

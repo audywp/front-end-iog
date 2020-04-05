@@ -53,7 +53,7 @@ class Routes extends Component {
                 <th scope='row' key = { i }>{ i + 1} </th>
                 <td>{v.start}</td>
                 <td>{v.end}</td>
-                <td>
+                <td className='iconData'>
                   <span><EditRoutes updateData={this.updateData} match='update' id={`${v.id}`} /></span>
                   <span onClick={()=> this.props.deleteRoutes(v.id)}> <AiOutlineDelete /> </span>
                 </td>

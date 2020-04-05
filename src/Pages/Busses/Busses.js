@@ -67,7 +67,7 @@ class Busses extends Component {
                 <td>{v.car_name}</td>
                 <td>{v.bus_class}</td>
                 <td class="text-center">{v.bus_seat}</td>
-                <td class="text-center">
+                <td class="text-center iconData">
                   <span><EditBusses updateData={this.updateData} match='update' id={`${v.id}`} /></span>
                   <span onClick={()=> this.props.deleteBus(v.id)}> <AiOutlineDelete /> </span>
                 </td>

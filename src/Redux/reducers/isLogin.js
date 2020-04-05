@@ -1,6 +1,7 @@
 const initialState = {
   userInfo: [],
   isLogged: false,
+  isLoading: false
 }
 
 export default function isLogin(state = initialState, action) {
@@ -9,7 +10,8 @@ export default function isLogin(state = initialState, action) {
     case 'IS_LOGIN':
       return {
         ...state,
-        isLogged :true
+        isLogged :true,
+        isLoading : true
       }
     case 'IS_LOGOUT':
       return {
