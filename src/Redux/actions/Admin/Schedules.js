@@ -4,9 +4,9 @@ import axios from 'axios'
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
 
-export const GetSchedules = () => async dispatch => {
+export const GetSchedules = (page) => async dispatch => {
   try {
-    const res = await axios.get(Config.APP_BACKEND.concat('user/schedule'))
+    const res = await axios.get(Config.APP_BACKEND.concat(`user/schedule?page=${page}`))
     dispatch({
       type: 'GET_SCHEDULES',
       payload: res.data

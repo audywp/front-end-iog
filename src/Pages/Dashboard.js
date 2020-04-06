@@ -50,9 +50,9 @@ class Dashboard extends Component {
         <Container>
           <Row>
             <Col md={2}>
-              <Link className='logoDashboard' to='/'>Dashboard</Link>
+              <span className='logoDashboard' style={{borderBottom: '1px solid #ddd', padding:`20px 0`}}>Dashboard</span>
               <div className="wrap-link">
-                <Link to='/dashboard/schedules'><p>Schedules</p><AiOutlineSchedule /></Link>
+                <Link to='/dashboard'><p>Schedules</p><AiOutlineSchedule /></Link>
                 <Link to='/dashboard/agents'><p>Agents</p><FaUserTie/></Link>
                 <Link to='/dashboard/bus'> <p>Bus</p> <FaBusAlt/></Link>
                 <Link to='/dashboard/routes'><p>Route</p><FaRoute /></Link>
@@ -76,7 +76,7 @@ class Dashboard extends Component {
                     <Rute component= { Busses } path='/dashboard/bus' exact />
                     <Rute component= { Agent } path= '/dashboard/agents' exact/>
                     <Rute component= { Routes } path='/dashboard/routes' exact />
-                    <Rute component= { Schedules } path='/dashboard/schedules' exact />
+                    <Rute component= { Schedules } path='/dashboard' exact />
                   </Switch>
                 </Col>
               </Row>

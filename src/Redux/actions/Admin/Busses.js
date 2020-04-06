@@ -1,9 +1,10 @@
 import Config from '../../../utils/Config'
 import Axios from 'axios'
+import history from '../../../utils/history'
 Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
-export const getBus = ()=> async dispatch => {
-  const endPoint = Config.APP_BACKEND.concat('admin/bus')
+export const getBus = (page, sort, search)=> async dispatch => {
+  const endPoint = Config.APP_BACKEND.concat(`admin/bus?page=${page}&sort[bus_Seat]=${sort}?&search[car_name]=${search||''}`)
   try {
     const res = await Axios.get(endPoint)
     dispatch({
@@ -20,7 +21,7 @@ export const addBus = (id,data)=> async dispatch => {
     const res = await Axios.post(Config.APP_BACKEND.concat(`admin/bus/add/${id}`), data)
     
     if (res) {
-      alert('success')
+      history.push('/dashboard/bus')
     } else {
       alert('failed')
     }
@@ -57,7 +58,8 @@ export const deleteBus = (id) => async dispatch => {
   try {
     const res = await Axios.delete(Config.APP_BACKEND.concat(`agent/bus/delete/${id}`))
     if(res) {
-      alert('ok')
+    history.push('dashboard/bus') 
+
     } else {
       alert('fail delete')
     }
@@ -69,5 +71,6 @@ export const deleteBus = (id) => async dispatch => {
     console.log(error)
   }
 }
+
 
 

@@ -3,9 +3,9 @@ import Config from '../../../utils/Config'
 import axios from 'axios'
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
-export const showRoutes = () => async dispatch => {
+export const showRoutes = (page) => async dispatch => {
   try {
-   const res = await axios.get(Config.APP_BACKEND.concat('admin/route'))
+   const res = await axios.get(Config.APP_BACKEND.concat(`admin/route?page=${page}`))
    dispatch({
      type : 'GET_ROUTES' ,
      payload: res.data

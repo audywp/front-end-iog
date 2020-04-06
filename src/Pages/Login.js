@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Container, FormGroup, Input, Label,Form} from 'reactstrap'
+import { Modal, Button, Container, FormGroup, Input, Label,Form, Spinner} from 'reactstrap'
 import '../assets/Styles/Pages/Login.scss'
 import {MdKeyboardBackspace} from 'react-icons/md'
 import { FiUser, FiLock } from 'react-icons/fi'
@@ -16,7 +16,8 @@ class Login extends Component {
       password : '',
       modal: false,
       toggle: false,
-      inLogin: ''
+      inLogin: '',
+      isLoading: false
     }
 
     if (localStorage.getItem('token')) {
@@ -28,6 +29,8 @@ class Login extends Component {
         inLogin: this.state.inLogin = 'Login'
       })
     }
+
+
 
     this.openModal = (e) => {
       this.setState({
@@ -113,7 +116,7 @@ class Login extends Component {
                 <Input type="checkbox" /> Remember Me!
               </Label>
             </FormGroup>
-            <Button onClick={this.toggle} type='submit' className='buttonLogin'>Login</Button>
+            <Button onClick={this.toggle} type='submit' className='buttonLogin'><span>Login</span></Button>
             </Form>
           </Container>
           <Link className='forgotpassword' to='/forgotpassword'>Forgot your password ?</Link>

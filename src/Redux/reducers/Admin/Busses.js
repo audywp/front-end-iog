@@ -29,7 +29,12 @@ export default function Busses(state= initState, action) {
         isLoading: false,
         data: action.payload
       }
+    case 'SORT':
+      return {
+        ...state,
+      }
     default:
       return {...state}
   }
 }
+

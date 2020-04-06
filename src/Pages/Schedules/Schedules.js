@@ -18,6 +18,29 @@ class Schedules extends Component {
     this.state = {
       idRoute : 0,
       idBus : 0,
+      currentPage:1
+    }
+
+    this.nextPage = (e) => {
+      e.preventDefault()
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      })
+      this.props.GetSchedules(this.state.currentPage)
+    }
+  
+    this.prevPage = (e) => {
+      e.preventDefault()
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      })
+      this.props.GetSchedules(this.state.currentPage)
+    }
+
+    this.setPage = (e) => {
+      e.preventDefault()
+      this.props.GetSchedules(e.target.textContent)
+      console.log(e.target.textContent)
     }
   }
   
@@ -26,6 +49,11 @@ class Schedules extends Component {
     console.log(this.props.id)
   }
   render() {
+    const page = []
+    const totalPage = this.props.Schedules.data.pageInfo && this.props.Schedules.data.pageInfo.totalPage
+    for (let index = 0; index < totalPage; index++) {
+        page.push(<PaginationItem key={index}> <PaginationLink onClick={this.setPage} href='#'>{index + 1}</PaginationLink> </PaginationItem>)
+      }
     return (
       <>
        <div className="utils">
@@ -82,25 +110,11 @@ class Schedules extends Component {
         <Container className='pagination-bus'>
           <Pagination size="lg" aria-label="Page navigation example">
             <PaginationItem>
-              <PaginationLink previous href="#" />
+              <PaginationLink onClick={this.prevPage} previous />
             </PaginationItem>
+              {page}
             <PaginationItem>
-              <PaginationLink href="#">
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink next href="#" />
+              <PaginationLink onClick={this.nextPage} next/>
             </PaginationItem>
           </Pagination>
         </Container>

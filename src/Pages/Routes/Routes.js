@@ -7,17 +7,52 @@ import CreateRoutes from './CreateRoutes'
 import EditRoutes from './EditRoutes'
 import {showRoutes, deleteRoutes} from '../../Redux/actions/Admin/Route'
 import styled from 'styled-components'
+import axios from 'axios'
 // import GetIdRoutes from '../Schedules/GetIdRoutes'
 
 const TableSchedules = styled(Table)`
   color: #ddd;
 `
 class Routes extends Component {
+  constructor(props) {
+    super(props)
+    this.state= {
+      currentPage: 1,
+      sort: 0
+    }
+    this.nextPage = (e) => {
+      e.preventDefault()
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      })
+      this.props.showRoutes(this.state.currentPage)
+    }
+  
+    this.prevPage = (e) => {
+      e.preventDefault()
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      })
+      this.props.showRoutes(this.state.currentPage)
+    }
+
+    this.setPage = (e) => {
+      e.preventDefault()
+      this.props.showRoutes(e.target.textContent)
+    }
+  }
+  
   
   componentDidMount() {
     this.props.showRoutes()
   }
   render() {
+    const page = []
+    const disablePage = []
+    const totalPage = this.props.Route.data.pageInfo && this.props.Route.data.pageInfo.totalPage
+    for (let index = 0; index < totalPage; index++) {
+        page.push(<PaginationItem key={index}> <PaginationLink onClick={this.setPage} href='#'>{index + 1}</PaginationLink> </PaginationItem>)
+      }
     return (
       <>
        <div className="utils">
@@ -66,25 +101,11 @@ class Routes extends Component {
         <Container className='pagination-bus'>
           <Pagination size="lg" aria-label="Page navigation example">
             <PaginationItem>
-              <PaginationLink previous href="#" />
+              <PaginationLink onClick={this.prevPage} previous />
             </PaginationItem>
+              {page}
             <PaginationItem>
-              <PaginationLink href="#">
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink next href="#" />
+              <PaginationLink onClick={this.nextPage} next/>
             </PaginationItem>
           </Pagination>
         </Container>

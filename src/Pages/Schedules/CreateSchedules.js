@@ -128,7 +128,7 @@ class CreateSchedules extends Component {
             {this.props.Bus.data.data && this.props.Bus.data.data.map((bus, i) => {
               return (
                 <div key = { i }>
-                  <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleModal}> <span onClick={()=> this.setIdbus(bus.id)}>{bus.id} - {bus.car_name} </span> </DropdownItem>
+                  <DropdownItem style = {{cursor:'pointer'}}> <span onClick={()=> this.setIdbus(bus.id)}>{bus.id} - {bus.car_name} </span> </DropdownItem>
                 </div>
               )
             })}

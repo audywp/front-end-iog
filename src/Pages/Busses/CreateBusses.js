@@ -143,8 +143,7 @@ class CreateBusses extends Component {
                 placeholder = 'Seat'
               />
             </FormGroup>
-            
-            <Button type='submit' className='buttonUpdate'>Submit</Button>
+            <Button type='submit' className='buttonUpdate' onClick={this.toggleMOdal}>Submit</Button>
             </Form>
           </UpdateBus>
           

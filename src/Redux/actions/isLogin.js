@@ -15,9 +15,9 @@ export const setLogin = (data) => async dispatch =>  {
       localStorage.setItem('token', infoLogin.data.token)
       const Toast = Swal.mixin({
         toast: true,
-        position: 'bottom-end',
+        position: 'top-start',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         onOpen: (toast) => {
           toast.addEventListener('mouseenter', Swal.stopTimer)
