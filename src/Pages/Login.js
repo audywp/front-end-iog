@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { Modal, Button, Container, FormGroup, Input, Label,Form, Spinner} from 'reactstrap'
+import { Modal, Button, Container, FormGroup, Input, Label, Form, Spinner } from 'reactstrap'
 import '../assets/Styles/Pages/Login.scss'
-import {MdKeyboardBackspace} from 'react-icons/md'
+import { MdKeyboardBackspace } from 'react-icons/md'
 import { FiUser, FiLock } from 'react-icons/fi'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {setLogin, isLogout} from '../Redux/actions/isLogin'
+import { setLogin, isLogout } from '../Redux/actions/isLogin'
 import history from '../utils/history'
 
 class Login extends Component {
-  constructor(props){
+  constructor (props) {
     super(props)
     this.state = {
-      username : '',
-      password : '',
+      username: '',
+      password: '',
       modal: false,
       toggle: false,
       inLogin: '',
@@ -30,11 +30,9 @@ class Login extends Component {
       })
     }
 
-
-
     this.openModal = (e) => {
       this.setState({
-        modal:this.state.modal
+        modal: this.state.modal
       })
     }
 
@@ -51,7 +49,7 @@ class Login extends Component {
           modal: this.state.modal
         })
         history.push('/')
-      } else if(!localStorage.getItem('token')) {
+      } else if (!localStorage.getItem('token')) {
         this.setState({
           modal: !this.state.modal
         })
@@ -60,9 +58,9 @@ class Login extends Component {
       }
     }
 
-    this.handleChange = (e) =>{
+    this.handleChange = (e) => {
       this.setState({
-        [e.target.name] : e.target.value
+        [e.target.name]: e.target.value
       })
     }
 
@@ -76,61 +74,60 @@ class Login extends Component {
       this.props.setLogin(data)
       console.log(this.props.data.isLogged)
       // console.log(this.props.Login)
-
     }
   }
 
-  render(){
-    return(
+  render () {
+    return (
       <>
-      <span style = {{cursor:'pointer'}} onClick={this.toggleLogin}>{this.state.inLogin}</span>
-      <Modal className='modalLogin' isOpen = {this.state.modal}>
-        <Container>
-          <div onClick={this.toggle} className="backHome">
-            <MdKeyboardBackspace/><span>Back to home</span>
-          </div>
-          <Container className='form-login'>
-          <Form method='post' onSubmit = {this.onLogin}>
-            <FormGroup>
-              <Label for='username'><FiUser /></Label>
-              <Input 
-                onChange = {this.handleChange}
-                type = 'text'
-                name = 'username'
-                id = 'username'
-                placeholder = 'Username'
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for='password'><FiLock /></Label>
-              <Input 
-                onChange = {this.handleChange}
-                type = 'password'
-                name = 'password'
-                id = 'password'
-                placeholder = 'Password'
-              />
-            </FormGroup>
-            <FormGroup className='checkBox' check>
-              <Label check>
-                <Input type="checkbox" /> Remember Me!
-              </Label>
-            </FormGroup>
-            <Button onClick={this.toggle} type='submit' className='buttonLogin'><span>Login</span></Button>
-            </Form>
+        <span style={{ cursor: 'pointer' }} onClick={this.toggleLogin}>{this.state.inLogin}</span>
+        <Modal className='modalLogin' isOpen={this.state.modal}>
+          <Container>
+            <div onClick={this.toggle} className='backHome'>
+              <MdKeyboardBackspace /><span>Back to home</span>
+            </div>
+            <Container className='form-login'>
+              <Form method='post' onSubmit={this.onLogin}>
+                <FormGroup>
+                  <Label for='username'><FiUser /></Label>
+                  <Input
+                    onChange={this.handleChange}
+                    type='text'
+                    name='username'
+                    id='username'
+                    placeholder='Username'
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for='password'><FiLock /></Label>
+                  <Input
+                    onChange={this.handleChange}
+                    type='password'
+                    name='password'
+                    id='password'
+                    placeholder='Password'
+                  />
+                </FormGroup>
+                <FormGroup className='checkBox' check>
+                  <Label check>
+                    <Input type='checkbox' /> Remember Me!
+                  </Label>
+                </FormGroup>
+                <Button onClick={this.toggle} type='submit' className='buttonLogin'><span>Login</span></Button>
+              </Form>
+            </Container>
+            <Link className='forgotpassword' to='/forgotpassword'>Forgot your password ?</Link>
           </Container>
-          <Link className='forgotpassword' to='/forgotpassword'>Forgot your password ?</Link>
-        </Container>
-      </Modal>
-    </>
+        </Modal>
+      </>
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    data: state.isLogin 
+    data: state.isLogin
   }
 }
-const mapDispatchToProps = {setLogin, isLogout}
+const mapDispatchToProps = { setLogin, isLogout }
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

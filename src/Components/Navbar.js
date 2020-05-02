@@ -1,4 +1,4 @@
-import React, {  Component } from 'react'
+import React, { Component } from 'react'
 import '../assets/Styles/Components/Navbar.scss'
 import Login from '../Pages/Login'
 import { Link } from 'react-router-dom'
@@ -12,12 +12,12 @@ import {
 } from 'reactstrap'
 
 class Navbar extends Component {
-  constructor(props){
+  constructor (props) {
     super(props)
     this.state = {
-      open : false,
-      close : true,
-      inLogin : ''
+      open: false,
+      close: true,
+      inLogin: ''
     }
 
     if (localStorage.getItem('token')) {
@@ -31,31 +31,28 @@ class Navbar extends Component {
     }
   }
 
-  render(){
-
+  render () {
     return (
       <>
-        <Navigation expand="md">
+        <Navigation expand='md'>
           <NavbarBrand> <Link to='/'>IOG</Link> </NavbarBrand>
           <NavbarToggler />
-            <Nav>
-              <NavItem>
-                <NavLink>
-                  <Link to='/dashboard'>Dashboard</Link>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <Login/>
-                </NavLink>
-              </NavItem>
-            </Nav>
+          <Nav>
+            <NavItem>
+              <NavLink>
+                <Link to='/dashboard'>Dashboard</Link>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <Login />
+              </NavLink>
+            </NavItem>
+          </Nav>
         </Navigation>
-        
       </>
     )
   }
-  
 }
 
 export default Navbar

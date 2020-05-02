@@ -1,26 +1,25 @@
+$color: #324047;
 nav{
   width: 100%;
-  margin: auto;
-  background:none;
   display: flex !important;
   color: #ddd;
   align-items: center;
-  background:none;
+  background:rgba(19,26,47, 0.9);
   height: 68px !important;
   border-radius: 20px;
-  padding: 0 50px !important;
 
   .navbar-brand{
     font-size: 32px;
-    color: #ddd;
+    color: $color;
     a{
+      color: white;
       text-decoration: none;
     }
   }
 
   a{
     flex: 1;
-    text-shadow: 1px 1px 1px black;
+    text-shadow: 1px 1px 15px 1px black;
     font-weight: 400;
     color: #ddd;
     

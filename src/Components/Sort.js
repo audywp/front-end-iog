@@ -1,41 +1,36 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {Sorting} from '../Redux/actions/Sort'
-import {FaSortAmountDown, FaSortAmountUp} from 'react-icons/fa'
+import { connect } from 'react-redux'
+import { Sorting } from '../Redux/actions/Sort'
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa'
 class SortComp extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
-      sortIcon : true,
-      icon: <FaSortAmountDown/>,
+      sortIcon: true,
+      icon: <FaSortAmountDown />,
       sort: ''
     }
 
     this.changeIcon = (e) => {
       if (this.state.sortIcon === true) {
-        
-        
         this.setState({
           sortIcon: !this.state.sortIcon,
-          icon : this.state.icon = <FaSortAmountUp/>,
+          icon: this.state.icon = <FaSortAmountUp />,
           sort: this.state.sort = 1
         })
         this.props.Sorting(this.state.sort)
-        
-
-      } else if (this.state.sortIcon === false){
-        
+      } else if (this.state.sortIcon === false) {
         this.setState({
           sortIcon: !this.state.sortIcon,
-          icon: this.state.icon = <FaSortAmountDown/>,
+          icon: this.state.icon = <FaSortAmountDown />,
           sort: this.state.sort = ''
         })
         this.props.Sorting(this.state.sort)
       }
     }
-    
   }
-  render() {
+
+  render () {
     return (
       <>
         <span onClick={this.changeIcon}>{this.state.icon}</span>
@@ -50,4 +45,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {Sorting}) (SortComp)
+export default connect(mapStateToProps, { Sorting })(SortComp)

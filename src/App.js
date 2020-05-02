@@ -1,32 +1,39 @@
 import React, { Component } from 'react'
 import Navbar from './Components/Navbar'
 import Dashoard from './Pages/Dashboard'
-import {BrowserRouter, Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter, Router, Route, Switch, Link, Redirect } from 'react-router-dom'
 import history from './utils/history'
-import Schedules from './Pages/Schedules/Schedules'
-import GetIdRoutes from './Pages/Schedules/GetIdRoutes'
-import SweetAlert from 'sweetalert2-react'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import Dashboard from './Pages/Dashboard'
+import Login from './Components/Login'
+import BeAgent from './Pages/BeAgent'
 export default class App extends Component {
-  
-
-  componentDidMount(){
-    console.log(localStorage)
-  }
-  render() {
-    return (
-      <>
+  render () {
+    if (localStorage.getItem('token')) {
+      history.push('/dashboard')
+      return (
         <BrowserRouter>
           <Router history={history}>
-            <Navbar/>          
             <Switch>
-              <Route path='/dashboard' render={(props) => <Dashoard {...props} />} />
+              <Route path='/' exact render ={() => <Login />} />
+              <Route path='/dashboard' render={() => <Dashboard  />} />
             </Switch>
           </Router>
         </BrowserRouter>
-       
-
-      </>
-    )
+      )
+    } else {
+      return (
+        <>
+          <BrowserRouter>
+            <Router history={history}>
+              <Switch>
+                <Route path='/' exact render ={() => <Login />} />
+                <Route path='/dashboard' render={() => <Dashboard  />} />
+                <Route path='/register/agent' render={() => <BeAgent />} />
+              </Switch>
+            </Router>
+          </BrowserRouter>
+        </>
+      )
+    }
   }
 }

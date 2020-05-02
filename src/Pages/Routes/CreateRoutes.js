@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Modal,Container } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Modal, Container } from 'reactstrap'
 import styled from 'styled-components'
-import {MdKeyboardBackspace} from 'react-icons/md'
+import { MdKeyboardBackspace } from 'react-icons/md'
 import { CreateRoutes as addRoute } from '../../Redux/actions/Admin/Route'
-import {connect} from 'react-redux'
-const UpdateBus = styled(Form) `
+import { connect } from 'react-redux'
+const UpdateBus = styled(Form)`
   display: block;
   display: flex;
   justify-content: center;
@@ -27,8 +27,7 @@ const UpdateBus = styled(Form) `
   }
 `
 class CreateRoutes extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -40,37 +39,35 @@ class CreateRoutes extends Component {
       isOpenDropdwon: false
     }
 
-
-
     this.toggleDropdown = () => {
       this.setState({
-        isOpenDropdwon : !this.state.isOpenDropdwon
+        isOpenDropdwon: !this.state.isOpenDropdwon
       })
     }
     this.toggleMOdal = () => {
       this.setState({
-        modal : !this.state.modal
+        modal: !this.state.modal
       })
     }
 
     this.onHandleChange = (e) => {
       this.setState({
-        [e.target.name] : e.target.value
+        [e.target.name]: e.target.value
       })
     }
 
     this.onCreate = (e) => {
       e.preventDefault()
       const data = {
-        start:this.state.start,
-        end: this.state.end,
+        start: this.state.start,
+        end: this.state.end
       }
       console.log(data)
-      
+
       console.log(this.state.id)
       this.props.addRoute(this.state.id, data)
     }
-    
+
     this.incrementId1 = () => {
       this.setState({
         id: this.state.id + 1
@@ -88,51 +85,48 @@ class CreateRoutes extends Component {
     }
   }
 
-
-  render() {
+  render () {
     return (
       <>
         <Button onClick={this.toggleMOdal}>
           <span onClick={this.incrementId2}>ADD</span>
         </Button>
-       
-     
-      
-      <Modal className='modalLogin' isOpen = {this.state.modal} toogle={this.toggleMOdal}>
-        <Container>
-          <div onClick={this.toggleMOdal} className="backHome">
-            <MdKeyboardBackspace/><span>Back to home</span>
-          </div>
-          <UpdateBus className='form-updateBusess'>
-          <Form method='post' onSubmit= {this.onCreate}>
-            <FormGroup>
-              <Label for='name'>Start From</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'text'
-                name = 'start'
-                id = 'Start'
-                placeholder = 'Start'
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for='Class'>Destination</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'text'
-                name = 'end'
-                id = 'Destination'
-                placeholder = 'Destination'
-              />
-            </FormGroup>
-            
-            <Button type='submit' className='buttonUpdate'>Submit</Button>
-            </Form>
-          </UpdateBus>
-          
-        </Container>
-      </Modal>
-    </>
+
+        <Modal className='modalLogin' isOpen={this.state.modal} toogle={this.toggleMOdal}>
+          <Container>
+            <div onClick={this.toggleMOdal} className='backHome'>
+              <MdKeyboardBackspace /><span>Back to home</span>
+            </div>
+            <UpdateBus className='form-updateBusess'>
+              <Form method='post' onSubmit={this.onCreate}>
+                <FormGroup>
+                  <Label for='name'>Start From</Label>
+                  <Input
+                    onChange={this.onHandleChange}
+                    type='text'
+                    name='start'
+                    id='Start'
+                    placeholder='Start'
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for='Class'>Destination</Label>
+                  <Input
+                    onChange={this.onHandleChange}
+                    type='text'
+                    name='end'
+                    id='Destination'
+                    placeholder='Destination'
+                  />
+                </FormGroup>
+
+                <Button type='submit' className='buttonUpdate'>Submit</Button>
+              </Form>
+            </UpdateBus>
+
+          </Container>
+        </Modal>
+      </>
     )
   }
 }
@@ -143,4 +137,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addRoute}) (CreateRoutes)
+export default connect(mapStateToProps, { addRoute })(CreateRoutes)
