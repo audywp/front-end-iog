@@ -1,33 +1,39 @@
 import React, { Component } from 'react'
 import { Row, Col, Button, Form, FormGroup, Label, Input, Modal,Container,ButtonDropdown, DropdownToggle,DropdownMenu,DropdownItem } from 'reactstrap';
 import styled from 'styled-components'
+
+import Schedule from '../../assets/Svg/schedule.svg'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import LoadingScreen from '../../Components/LoadingScreen'
 import {MdKeyboardBackspace} from 'react-icons/md'
-import { CreateSchedules as addSchedule } from '../../Redux/actions/Admin/Schedules'
+import { CreateSchedules as addSchedule, GetSchedules, schedulesLoading } from '../../Redux/actions/Admin/Schedules'
 import { getBus } from '../../Redux/actions/Admin/Busses'
 import {showRoutes} from '../../Redux/actions/Admin/Route'
 import {connect} from 'react-redux'
 import '../../assets/Styles/Pages/Schedules.scss'
+import '../../assets/Styles/Pages/Statis.scss'
 import { Link } from 'react-router-dom';
+import history from '../../utils/history'
 const UpdateBus = styled(Form) `
-  display: flex;
-  justify-content: center;
-  algin-items: center;
-  max-width : 100%;
-  margin-top: 30px;
-  color: #ddd;
-  font-size: 22px;
-  & .form-group {
-    width: 450px !important;
-    margin-bottom: 10px;
-  }
-  & .buttonUpdate {
-    position: absolute;
-    margin-top: 10px;
-    background: linear-gradient(to top right, #74b9ff, #0984e3);
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
+display: flex;
+justify-content: center;
+algin-items: center;
+max-width : 100%;
+color: #ddd;
+font-size: 22px;
+margin-bottom: 20px;
+& .form-group {
+  width: 380px !important;
+}
+& .buttonUpdate {
+  position: absolute;
+  margin-top: 10px;
+  background: linear-gradient(to top right, #1c8be0,#1c8be0,#3F3D56,#1c8be0, #1c8be0);
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
 `
 class CreateSchedules extends Component {
 
@@ -35,30 +41,17 @@ class CreateSchedules extends Component {
     super(props)
 
     this.state = {
-      idBus: 0,
-      idRoute: 0,
+      agent: '',
+      start: '',
+      end: '',
+      busClass: '',
       price: 0,
-      departureTime: '21:21:21',
-      arriveTime: '20:20:20',
-      departureDate: '01-01-1999',
+      departureTime: new Date().getTime(),
+      arriveTime: null,
+      departureDate: new Date(),
       modal: false,
       isLoading: false,
-      isOpenDropdwon1: false,
-      isOpenDropdwon2: false
-    }
-
-
-
-    this.toggleDropdown1 = () => {
-      this.setState({
-        isOpenDropdwon1 : !this.state.isOpenDropdwon1
-      })
-    }
-
-    this.toggleDropdown2 = () => {
-      this.setState({
-        isOpenDropdwon2 : !this.state.isOpenDropdwon2
-      })
+      minDate: new Date()
     }
     this.toggleModal = () => {
       this.setState({
@@ -87,158 +80,185 @@ class CreateSchedules extends Component {
 
     this.onCreate = (e) => {
       e.preventDefault()
+      const departTime = `${this.state.departureTime}`
+      const arriveTime = `${this.state.arriveTime}`
       const data = {
+        nameAgent: this.state.agent,
+        start: this.state.start,
+        end: this.state.end,
+        classBus: this.state.busClass,
         price: this.state.price,
-        departureTime: this.state.departureTime,
-        arriveTime: this.state.arriveTime,
+        departureTime: departTime.slice(16, 24),
+        arriveTime: arriveTime.slice(16, 24),
         departureDate: this.state.departureDate,
       }
-      console.log(data)
-      
-      console.log(this.state.id)
-      this.props.addSchedule(this.state.idBus, this.state.idRoute, data)
+      this.props.GetSchedules()
+      this.props.addSchedule(data).then(() => {
+        if (this.props.Schedules.isLoading) {
+          this.props.GetSchedules()
+          this.setState({
+            modal: false
+          })
+        }
+      })
     }
   }
-  componentDidMount() {
-    this.props.getBus()
-    this.props.showRoutes()
-  }
-
   render() {
-    return (
-      <>
-        
-       
-        <Button onClick={this.toggleModal}>
-          <span>ADD</span>
-        </Button>
-      
-      <Modal className='modalLogin' isOpen = {this.state.modal} toogle={this.toggleModal}>
+
+    if (!this.props.Schedules.isLoading) {
+      return(
         <Container>
-          <div onClick={this.toggleModal} className="backHome">
-            <MdKeyboardBackspace/><span>Back to home</span>
-          </div>
-          <UpdateBus className='form-updateBusess'>
-          <Form method='post' className='CreateSchedules' onSubmit= {this.onCreate}>
-          <ButtonDropdown caret isOpen={this.state.isOpenDropdwon1} toggle={this.toggleDropdown1}>
-          <DropdownToggle caret className='createButton'>
-            Choose Bus
-          </DropdownToggle>
-          <DropdownMenu className>
-            {this.props.Bus.data.data && this.props.Bus.data.data.map((bus, i) => {
-              return (
-                <div key = { i }>
-                  <DropdownItem style = {{cursor:'pointer'}}> <span onClick={()=> this.setIdbus(bus.id)}>{bus.id} - {bus.car_name} </span> </DropdownItem>
-                </div>
-              )
-            })}
-          
-          </DropdownMenu>
-        </ButtonDropdown>
-
-        <ButtonDropdown caret isOpen={this.state.isOpenDropdwon2} toggle={this.toggleDropdown2}>
-          <DropdownToggle caret className='createButton'>
-            Choose Route
-          </DropdownToggle>
-          <DropdownMenu>
-            {this.props.Route.data.data && this.props.Route.data.data.map((route, i) => {
-              return (
-                <div key = { i }>
-                  <DropdownItem style = {{cursor:'pointer'}} onClick={this.toggleMOdal}> <span onClick={()=> this.setRoute(route.id)}>{route.start} - {route.end} </span> </DropdownItem>
-                </div>
-              )
-            })}
-          
-          </DropdownMenu>
-        </ButtonDropdown>
-
-        <Row>
-          <Col md={6}>
-          <FormGroup>
-              <Label for='idBus'>Bus</Label>
-              
-              <Input
-                disabled
-                type = 'text'
-                name = 'idBus'
-                id = 'idBus'
-                value = {this.state.idBus}
-                placeholder = 'Bus'
-              /> 
-              
-            </FormGroup>
-           
-            <FormGroup>
-              <Label for='idRoute'>Route</Label>
-              <Input
-                disabled
-                type = 'text'
-                name = 'idRoute'
-                id = 'idRoute'
-                value = { this.state.idRoute }
-                placeholder = 'Route'
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label for='price'>Price</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'text'
-                name = 'price'
-                id = 'price'
-                placeholder = 'Price'
-              />
-            </FormGroup>
-
-          </Col>
-
-          <Col md={6}>
-          <FormGroup>
-              <Label for='departureTime'>Departure Time</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'time'
-                name = 'departureTime'
-                id = 'departureTime'
-                placeholder = 'Departure Time'
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label for='arriveTime'>Arrive Time</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'time'
-                name = 'arriveTime'
-                id = 'arriveTime'
-                placeholder = 'Arrive Time'
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label for='departureDate'>Departure Date</Label>
-              <Input
-                onChange = {this.onHandleChange}
-                type = 'date'
-                name = 'departureDate'
-                id = 'departureDate'
-                placeholder = 'Departure Date'
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-            
-            
-            
-            <Button type='submit' className='buttonUpdate'>Submit</Button>
-            </Form>
-          </UpdateBus>
-          
+          <LoadingScreen/>
         </Container>
-      </Modal>
-    </>
-    )
+      )   
+    } else {
+
+      return (
+        <>
+          <Button className='createButton' onClick={this.toggleModal}>
+              <span onClick={this.incrementId2}>ADD</span>
+            </Button>
+    
+            <Modal className='modalLogin' isOpen={this.state.modal} toogle={this.toggleModal}>
+              <Container>
+                <div onClick={this.toggleModal} className='backHome'>
+                  <MdKeyboardBackspace /><span>Back to Dashboard</span>
+                </div>
+    
+                <Row
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Col md={6}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <img
+                      src={Schedule} alt=""
+                      style={{ width: '80%' }}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <UpdateBus className='form-updateBusess'>
+                      <Form method='post' onSubmit={this.onCreate}>
+                        <FormGroup>
+                          <Label for='Class'>Agent</Label>
+                          <Input
+                            onChange={this.onHandleChange}
+                            type='text'
+                            name='agent'
+                            id='Agent'
+                            placeholder='Agent Name'
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for='name'>Start Place</Label>
+                          <Input
+                            onChange={this.onHandleChange}
+                            type='text'
+                            name='start'
+                            id='Start'
+                            placeholder='Start Place'
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for='name'>End Place</Label>
+                          <Input
+                            onChange={this.onHandleChange}
+                            type='text'
+                            name='end'
+                            id='End'
+                            placeholder='End Place'
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for='Class'>Class</Label>
+                          <Input
+                            onChange={this.onHandleChange}
+                            type='text'
+                            name='busClass'
+                            id='Class'
+                            placeholder='Class'
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for='Class'>Price</Label>
+                          <Input
+                            onChange={this.onHandleChange}
+                            type='text'
+                            name='price'
+                            id='Price'
+                            placeholder='Price'
+                          />
+                        </FormGroup>
+                        <div className='timeContainer'>
+                          <FormGroup id='departure' className='departureTime'>
+                            <Label>Departure Time</Label>
+                            <DatePicker
+                              className='DatePicker'
+                              selected={this.state.departureTime}
+                              dateFormat='hh:mm'
+                              timeIntervals={60}
+                              timeFormat='hh:mm'
+                              locale='id'
+                              timeInputLabel
+                              onChange={date => this.setState({departureTime: date})}
+                              showTimeSelect
+                              showTimeSelectOnly
+                              fixedHeight
+                              isClearable
+                            />
+                          </FormGroup>
+                          <FormGroup id='arrive' className='departureTime'>
+                            <Label>Arrive Time</Label>
+                            <DatePicker
+                              className='DatePicker'
+                              selected={this.state.arriveTime}
+                              dateFormat='hh:mm'
+                              timeIntervals={60}
+                              timeFormat='hh:mm'
+                              timeInputLabel
+                              onChange={date=> this.setState({arriveTime: date})}
+                              showTimeSelect
+                              showTimeSelectOnly
+                              fixedHeight
+                              isClearable
+                            />
+                          </FormGroup>
+                        </div>
+                        <FormGroup className='departureTime'>
+                          <Label>Departure Date</Label>
+                          <DatePicker
+                            className='DatePicker'
+                            placeholderText= 'Select Departure Date'
+                            selected={this.state.departureDate}
+                            locale='ID'
+                            dateFormat='yyyy-MM-dd'
+                            adjustDateOnChange
+                            name='departureDate'
+                            onChange={date => this.setState({ departureDate: date })}
+                            minDate={this.state.minDate}
+                            fixedHeight
+                            isClearable
+                          />
+                        </FormGroup>
+                        <Button type='submit' className='buttonUpdate'>Submit</Button>
+                      </Form>
+                    </UpdateBus>
+                  </Col>
+                </Row>
+    
+              </Container>
+            </Modal>
+      </>
+      )
+    }
   }
 }
 
@@ -250,4 +270,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addSchedule, getBus, showRoutes}) (CreateSchedules)
+export default connect(mapStateToProps, {addSchedule,schedulesLoading, GetSchedules, getBus, showRoutes}) (CreateSchedules)

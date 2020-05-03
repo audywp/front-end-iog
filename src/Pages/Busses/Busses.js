@@ -21,25 +21,51 @@ class Busses extends Component {
       icon: <FaSortAmountDown/>,
       sort: '',
       startFrom: 1,
-      search: ''
+      search: '',
+      disableNext: false,
+      disablePrev: false
     }
 
-    this.nextPage = (e) => {
+    this.nextPage = async (e) => {
       e.preventDefault()
-      this.setState({
-        currentPage: this.state.currentPage + 1,
-        startFrom: this.state.startFrom + this.props.Bus.data.pageInfo.perPage
+      const {currentPage, sort, search, startFrom} = this.state
+      await this.props.getBus(this.props.Bus.data.pageInfo.page + 1, sort, search).then( async () => {
+       await this.setState({
+          startFrom: this.state.startFrom + this.props.Bus.data.pageInfo.perPage
+        })
+        if (this.props.Bus.data.pageInfo && this.props.Bus.data.pageInfo.page === this.props.Bus.data.pageInfo && this.props.Bus.data.pageInfo.totalPage) {
+          this.props.getBus(this.props.getBus(this.props.Bus.data.pageInfo.page, sort, search), sort, search)
+          this.setState({
+            disableNext: !this.state.disableNext,
+            disablePrev: false,
+          })
+        } else {
+          this.setState({
+            disableNext: false
+          })
+        }
       })
-      this.props.getBus(this.state.currentPage)
     }
 
-    this.prevPage = (e) => {
+    this.prevPage = async (e) => {
       e.preventDefault()
-      this.setState({
-        currentPage: this.state.currentPage - 1,
-        startFrom: this.state.startFrom - this.props.Bus.data.pageInfo.perPage
+      const {currentPage, sort, search, startFrom} = this.state
+      await this.props.getBus(this.props.Bus.data.pageInfo.page - 1, sort, search).then( async () => {
+        await this.setState({
+          startFrom: this.state.startFrom - this.props.Bus.data.pageInfo.perPage
+        })
+        if (this.props.Bus.data.pageInfo && this.props.Bus.data.pageInfo.page === 1) {
+          this.props.getBus(this.props.Bus.data.pageInfo.page, sort, search)
+          this.setState({
+            disablePrev: true,
+            disableNext: false
+          })
+        } else {
+          this.setState({
+            disablePrev: false
+          })
+        }
       })
-      this.props.getBus(this.state.currentPage)
     }
 
     this.searchKey = (e) => {
@@ -50,9 +76,7 @@ class Busses extends Component {
     }
     
     this.changeIcon = (e) => {
-      if (this.state.sortIcon === true) {
-        
-        
+      if (this.state.sortIcon === true) { 
         this.setState({
           sortIcon: !this.state.sortIcon,
           icon : this.state.icon = <FaSortAmountUp/>,
@@ -63,8 +87,8 @@ class Busses extends Component {
         
         this.setState({
           sortIcon: !this.state.sortIcon,
-          icon: this.state.icon = <FaSortAmountDown/>,
-          sort: this.state.sort = ''
+          icon: <FaSortAmountDown/>,
+          sort: ''
         })
         this.props.getBus(this.state.currentPage,this.state.sort)
       }
@@ -77,25 +101,27 @@ class Busses extends Component {
 
   }
   componentDidMount() {
+    const {currentPage, sort, search} = this.state
+    this.props.getBus(currentPage, sort, search)
   }
 
   updateData = (id, data) => {
-    this.props.updateBus(id, data)
     this.props.getBus()
-    
+    this.props.updateBus(id, data)
     alert('ok')
   }
 
 
   render() {
+    console.log(this.state)
+    console.log(this.props.Bus.data.pageInfo)
     const page = []
     const totalPage = this.props.Bus.data.pageInfo && this.props.Bus.data.pageInfo.totalPage
     for (let index = 0; index < totalPage; index++) {
-        page.push(<PaginationItem key={index}> <PaginationLink onClick={this.setPage} href='#'>{index + 1}</PaginationLink> </PaginationItem>)
-      }
+      page.push(<PaginationItem key={index}> <PaginationLink onClick={this.setPage} href='#'>{index + 1}</PaginationLink></PaginationItem>)
+    }
     return (
       <>
-
         <div className="utils">
           <Form>
             <FormGroup>
@@ -146,11 +172,11 @@ class Busses extends Component {
         <Container className='pagination-bus'>
           <Pagination size="lg" aria-label="Page navigation example">
             <PaginationItem>
-              <PaginationLink onClick={this.prevPage} previous />
+              <PaginationLink disabled={this.state.disablePrev} onClick={this.prevPage} previous />
             </PaginationItem>
               {page}
             <PaginationItem>
-              <PaginationLink onClick={this.nextPage} next/>
+              <PaginationLink disabled={this.state.disableNext} onClick={this.nextPage} next/>
             </PaginationItem>
           </Pagination>
         </Container>

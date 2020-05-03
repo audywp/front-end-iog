@@ -26,7 +26,6 @@ export const setLogin = (data) => async dispatch => {
         icon: 'success',
         title: 'Signed in successfully'
       })
-
       dispatch({
         type: 'IS_LOGIN',
         payload: infoLogin.data

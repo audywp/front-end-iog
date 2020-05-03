@@ -8,26 +8,31 @@ export default function Routes (state = initState, action) {
     case 'GET_ROUTES' :
       return {
         ...state,
-        loading:false,
+        isLoading:true,
         data: action.payload
       }
     case 'ADD_ROUTES' :
       return {
         ...state,
-        loading: false,
+        isLoading: true,
         data: action.payload
       }
     case 'UPDATE_ROUTES' :
       return {
         ...state,
-        loading: false,
+        isLoading: true,
         data: action.payload
       }
     case 'DELETE_ROUTES' :
       return {
         ...state,
-        loading: false,
+        isLoading: true,
         data: action.payload
+      }
+    case 'ROUTES_LOADING' :
+      return {
+        ...state,
+        isLoading: false
       }
     default :
     return {...state}

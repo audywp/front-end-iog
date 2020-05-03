@@ -44,9 +44,8 @@ class Schedules extends Component {
     }
   }
   
-  componentDidMount() {
-    this.props.GetSchedules()
-    console.log(this.props.id)
+  async componentDidMount() {
+    await this.props.GetSchedules(this.state.currentPage)
   }
   render() {
     const page = []
@@ -77,6 +76,7 @@ class Schedules extends Component {
             <tr>
               <th>No</th>
               <th>Bus Name</th>
+              <th>Class</th>
               <th>Bus Seat</th>
               <th>Start</th>
               <th>End</th>
@@ -92,6 +92,7 @@ class Schedules extends Component {
               <tr>
                 <th scope='row' key = { i }>{ i + 1} </th>
                 <td>{v.car_name}</td>
+                <td>{v.bus_class}</td>
                 <td>{v.bus_seat}</td>
                 <td>{v.start}</td>
                 <td>{v.end}</td>

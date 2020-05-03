@@ -43,19 +43,19 @@
       }
     }
 
-    .btn-group{
-      border-radius: 8px;
+      
       .createButton{
-        background: linear-gradient(to top right, rgb(81, 124, 233), rgb(39, 71, 151));
         width: 100px;
+        background: linear-gradient(to top right, #1c8be0,#1c8be0,#3F3D56,#1c8be0, #1c8be0);
         border: none;
         outline: none;
         box-shadow: none;
         transition: 0.5s ease;
+        border-radius: 8px;
       }
       .createButton:hover{
         transform: scale(1.05);
       }
-    }
+    
   }
 }

@@ -8,26 +8,31 @@ export default function Agent (state=initState, action) {
     case 'GET_AGENT':
       return{
         ...state,
-        isLoading: false,
+        isLoading: true,
         data: action.payload
       }
     case 'DELETE_AGENT':
       return{
         ...state,
-        isLoading: false,
+        isLoading: true,
         data: action.payload
       }
     case 'ADD_AGENT':
       return{
         ...state,
-        isLoading: false,
+        isLoading: true,
         data: action.payload
       }
     case 'MAKE_AGENT':
       return{
         ...state,
-        isLoading: false,
+        isLoading: true,
         data: action.payload
+      }
+    case 'AGENT_LOADING':
+      return{
+        ...state,
+        isLoading: false
       }
     default:
       return { ...state };

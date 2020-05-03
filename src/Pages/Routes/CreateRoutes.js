@@ -1,26 +1,28 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Modal, Container } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input, Modal, Container, Col,Row } from 'reactstrap'
 import styled from 'styled-components'
 import { MdKeyboardBackspace } from 'react-icons/md'
-import { CreateRoutes as addRoute } from '../../Redux/actions/Admin/Route'
+import { CreateRoutes as addRoute, routesLoading, showRoutes } from '../../Redux/actions/Admin/Route'
+import Rute from '../../assets/Svg/rute.svg'
 import { connect } from 'react-redux'
+import history from '../../utils/history'
+import LoadingScreen from '../../Components/LoadingScreen'
+import '../../assets/Styles/Pages/Statis.scss'
 const UpdateBus = styled(Form)`
-  display: block;
   display: flex;
   justify-content: center;
   algin-items: center;
   max-width : 100%;
-  margin-top: 120px;
   color: #ddd;
   font-size: 22px;
+  margin-bottom: 20px;
   & .form-group {
-    width: 450px !important;
-    margin-bottom: 10px;
+    width: 380px !important;
   }
   & .buttonUpdate {
     position: absolute;
     margin-top: 10px;
-    background: linear-gradient(to top right, #74b9ff, #0984e3);
+    background: linear-gradient(to top right, #1c8be0,#1c8be0,#3F3D56,#1c8be0, #1c8be0);
     border: none;
     outline: none;
     box-shadow: none;
@@ -36,14 +38,8 @@ class CreateRoutes extends Component {
       end: '',
       modal: false,
       isLoading: false,
-      isOpenDropdwon: false
     }
 
-    this.toggleDropdown = () => {
-      this.setState({
-        isOpenDropdwon: !this.state.isOpenDropdwon
-      })
-    }
     this.toggleMOdal = () => {
       this.setState({
         modal: !this.state.modal
@@ -62,10 +58,13 @@ class CreateRoutes extends Component {
         start: this.state.start,
         end: this.state.end
       }
-      console.log(data)
-
-      console.log(this.state.id)
-      this.props.addRoute(this.state.id, data)
+      this.props.showRoutes()
+      this.props.addRoute(this.state.id, data).then(()=> {
+        if (this.props.Route.isLoading) {
+          this.props.showRoutes()
+          history.push('/dashboard/routes')
+        }
+      })
     }
 
     this.incrementId1 = () => {
@@ -86,48 +85,78 @@ class CreateRoutes extends Component {
   }
 
   render () {
-    return (
-      <>
-        <Button onClick={this.toggleMOdal}>
-          <span onClick={this.incrementId2}>ADD</span>
-        </Button>
-
-        <Modal className='modalLogin' isOpen={this.state.modal} toogle={this.toggleMOdal}>
-          <Container>
-            <div onClick={this.toggleMOdal} className='backHome'>
-              <MdKeyboardBackspace /><span>Back to home</span>
-            </div>
-            <UpdateBus className='form-updateBusess'>
-              <Form method='post' onSubmit={this.onCreate}>
-                <FormGroup>
-                  <Label for='name'>Start From</Label>
-                  <Input
-                    onChange={this.onHandleChange}
-                    type='text'
-                    name='start'
-                    id='Start'
-                    placeholder='Start'
+    if (!this.props.Route.isLoading) {
+      return(
+        <Container>
+          <LoadingScreen/>
+        </Container>
+      )   
+    } else {
+      return (
+        <>
+          <Button className='createButton' onClick={this.toggleMOdal}>
+            <span onClick={this.incrementId2}>ADD</span>
+          </Button>
+  
+          <Modal className='modalLogin' isOpen={this.state.modal} toogle={this.toggleMOdal}>
+            <Container>
+              <div onClick={this.toggleMOdal} className='backHome'>
+                <MdKeyboardBackspace /><span>Back to Dashboard</span>
+              </div>
+  
+              <Row
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Col md={6}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <img
+                    src={Rute} alt=""
+                    style={{ width: '60%' }}
                   />
-                </FormGroup>
-                <FormGroup>
-                  <Label for='Class'>Destination</Label>
-                  <Input
-                    onChange={this.onHandleChange}
-                    type='text'
-                    name='end'
-                    id='Destination'
-                    placeholder='Destination'
-                  />
-                </FormGroup>
-
-                <Button type='submit' className='buttonUpdate'>Submit</Button>
-              </Form>
-            </UpdateBus>
-
-          </Container>
-        </Modal>
-      </>
-    )
+                </Col>
+                <Col md={6}>
+                  <UpdateBus className='form-updateBusess'>
+                    <Form method='post' onSubmit={this.onCreate}>
+                      <FormGroup>
+                        <Label for='name'>Start From</Label>
+                        <Input
+                          onChange={this.onHandleChange}
+                          type='text'
+                          name='start'
+                          id='Start'
+                          placeholder='Start'
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <Label for='Class'>Destination</Label>
+                        <Input
+                          onChange={this.onHandleChange}
+                          type='text'
+                          name='end'
+                          id='Destination'
+                          placeholder='Destination'
+                        />
+                      </FormGroup>
+                      <Button type='submit' className='buttonUpdate'>Submit</Button>
+                    </Form>
+                  </UpdateBus>
+                </Col>
+              </Row>
+  
+            </Container>
+          </Modal>
+        </>
+      )
+    }
   }
 }
 
@@ -137,4 +166,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { addRoute })(CreateRoutes)
+export default connect(mapStateToProps, { addRoute, routesLoading, showRoutes })(CreateRoutes)

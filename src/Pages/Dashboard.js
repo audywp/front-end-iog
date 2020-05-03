@@ -16,6 +16,7 @@ import Schedules from './Schedules/Schedules'
 import { getBus } from '../Redux/actions/Admin/Busses'
 import { showRoutes } from '../Redux/actions/Admin/Route'
 import { GetSchedules } from '../Redux/actions/Admin/Schedules'
+import { GetDataAgent } from '../Redux/actions/Admin/Agent'
 import { connect } from 'react-redux'
 import history from '../utils/history'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
@@ -38,10 +39,11 @@ class Dashboard extends Component {
     }
   }
 
-  componentDidMount () {
-    this.props.getBus()
-    this.props.showRoutes()
-    this.props.GetSchedules()
+  async componentDidMount () {
+    await this.props.GetDataAgent()
+    await this.props.getBus()
+    await this.props.showRoutes()
+    await this.props.GetSchedules()
   }
   
 
@@ -55,7 +57,7 @@ class Dashboard extends Component {
               <Col md={2}>
                 <Link to='/dashboard' className='logoDashboard' style={{ borderBottom: '1px solid #ddd', padding: '20px 0' }}>Dashboard</Link>
                 <div className='wrap-link'>
-                  <Link to='/dashboard'><p>Schedules</p><AiOutlineSchedule /></Link>
+                  <Link to='/dashboard/schedules'><p>Schedules</p><AiOutlineSchedule /></Link>
                   <Link to='/dashboard/agents'><p>Agents</p><FaUserTie /></Link>
                   <Link to='/dashboard/bus'> <p>Bus</p> <FaBusAlt /></Link>
                   <Link to='/dashboard/routes'><p>Route</p><FaRoute /></Link>
@@ -77,7 +79,7 @@ class Dashboard extends Component {
                   <Col md={12}>
                     <Switch>
                       {/* <Rute component= {Bar} path='/dashboard' exact /> */}
-                      <Rute component={Schedules} path='/dashboard' exact />
+                      <Rute component={Schedules} path='/dashboard/schedules' exact />
                       <Rute component={Busses} path='/dashboard/bus' exact />
                       <Rute component={Agent} path='/dashboard/agents' exact />
                       <Rute component={Routes} path='/dashboard/routes' exact />
@@ -102,4 +104,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { getBus, showRoutes, GetSchedules })(Dashboard)
+export default connect(mapStateToProps, { getBus, showRoutes, GetSchedules, GetDataAgent })(Dashboard)

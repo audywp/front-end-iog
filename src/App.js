@@ -28,7 +28,7 @@ export default class App extends Component {
               <Switch>
                 <Route path='/' exact render ={() => <Login />} />
                 <Route path='/dashboard' render={() => <Dashboard  />} />
-                <Route path='/register/agent' render={() => <BeAgent />} />
+                <Route path='/register/agent' exact render={() => <BeAgent />} />
               </Switch>
             </Router>
           </BrowserRouter>
