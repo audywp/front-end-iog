@@ -1,8 +1,18 @@
 import React, { Component } from 'react'
-import { Table, Input, Form, FormGroup,Label, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap'
+import {
+  Table,
+  Input,
+  Form,
+  FormGroup,
+  Label,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Container,
+} from 'reactstrap'
 import {connect} from 'react-redux'
 import {AiOutlineDelete, AiOutlineForm} from 'react-icons/ai'
-import {FaSearch} from 'react-icons/fa'
+import {FaSearch, FaSortAmountDown, FaSortAmountUp} from 'react-icons/fa'
 import CreateSchedules from './CreateSchedules'
 // import EditRoutes from './EditRoutes'
 import {GetSchedules, DeleteSchedules} from '../../Redux/actions/Admin/Schedules'
@@ -18,25 +28,14 @@ class Schedules extends Component {
     this.state = {
       idRoute : 0,
       idBus : 0,
-      currentPage:1
+      currentPage:1,
+      disableNext: false,
+      disablePrev: false,
+      dropdownOpen: false,
+      sort: 0,
+      sortCond: true,
+      sortIcon: <FaSortAmountDown />
     }
-
-    this.nextPage = (e) => {
-      e.preventDefault()
-      this.setState({
-        currentPage: this.state.currentPage + 1
-      })
-      this.props.GetSchedules(this.state.currentPage)
-    }
-  
-    this.prevPage = (e) => {
-      e.preventDefault()
-      this.setState({
-        currentPage: this.state.currentPage - 1
-      })
-      this.props.GetSchedules(this.state.currentPage)
-    }
-
     this.setPage = (e) => {
       e.preventDefault()
       this.props.GetSchedules(e.target.textContent)
@@ -46,6 +45,52 @@ class Schedules extends Component {
   
   async componentDidMount() {
     await this.props.GetSchedules(this.state.currentPage)
+  }
+  nextPage = async (e) => {
+    e.preventDefault()
+    const { page, totalPage } = await this.props.Schedules.data.pageInfo
+    await this.props.GetSchedules(page)
+    await this.props.GetSchedules(page + 1)
+    if (page !== totalPage - 1) {
+        this.setState({
+          disableNext : false
+        })
+      }
+      if (page === totalPage -1) {
+        this.setState({
+          disableNext : !this.state.disableNext
+        })
+      }   
+  }
+  prevPage = async (e) => {
+    e.preventDefault()
+    const { page } = await this.props.Schedules.data.pageInfo
+    await this.props.GetSchedules(page)
+    await this.props.GetSchedules(page - 1)
+      
+    if (page !== 1) {
+        this.setState({
+          disablePrev : false
+        })
+      }
+
+      if (page === 1) {
+        this.setState({
+          disablePrev : !this.state.disablePrev
+        })
+      }
+        
+      
+  }
+
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    })
+  }
+
+  handleSort = () => {
+
   }
   render() {
     const page = []
@@ -68,6 +113,31 @@ class Schedules extends Component {
               placeholder= 'search'
               />
             </FormGroup>
+            <FormGroup style = {{
+              marginLeft: 40,
+              width: 200
+            }}>
+              <Label style={{
+                color: 'white',
+                fontSize: 15,
+                width: 250,
+                height: 40,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                border: 'none'
+              }} for="sortBy">Sort by</Label>
+              <Input
+              style={{
+                backgroundColor: 'rgba(0,0,0,0)',
+                color: 'white',
+                width: 120
+              }}  
+              type="select" name="shortBy" id="sortBy">
+                <option>Id</option>
+                <option>Price</option>
+              </Input>
+            </FormGroup>
           </Form>
           <CreateSchedules/>
         </div>
@@ -88,9 +158,10 @@ class Schedules extends Component {
 
             <tbody>
         { this.props.Schedules.data.result && this.props.Schedules.data.result.map((v,i)=>{
+          const { page, perPage, totalData, totalPage } = this.props.Schedules.data.pageInfo
             return (
               <tr>
-                <th scope='row' key = { i }>{ i + 1} </th>
+                <th scope='row' key = { i }> {((page - 1) * perPage) + (i + 1) } </th>
                 <td>{v.car_name}</td>
                 <td>{v.bus_class}</td>
                 <td>{v.bus_seat}</td>
@@ -111,11 +182,11 @@ class Schedules extends Component {
         <Container className='pagination-bus'>
           <Pagination size="lg" aria-label="Page navigation example">
             <PaginationItem>
-              <PaginationLink onClick={this.prevPage} previous />
+              <PaginationLink disabled={this.state.disablePrev} onClick={this.prevPage} previous />
             </PaginationItem>
               {page}
             <PaginationItem>
-              <PaginationLink onClick={this.nextPage} next/>
+              <PaginationLink disabled={this.state.disableNext} onClick={this.nextPage} next/>
             </PaginationItem>
           </Pagination>
         </Container>

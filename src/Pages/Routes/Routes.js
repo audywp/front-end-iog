@@ -43,8 +43,8 @@ class Routes extends Component {
   }
   
   
-  componentDidMount() {
-    this.props.showRoutes()
+  async componentDidMount() {
+    await this.props.showRoutes()
   }
   render() {
     const page = []

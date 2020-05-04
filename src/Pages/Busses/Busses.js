@@ -100,9 +100,9 @@ class Busses extends Component {
 
 
   }
-  componentDidMount() {
+  async componentDidMount() {
     const {currentPage, sort, search} = this.state
-    this.props.getBus(currentPage, sort, search)
+    await this.props.getBus(currentPage, sort, search)
   }
 
   updateData = (id, data) => {
