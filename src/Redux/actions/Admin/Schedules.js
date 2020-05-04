@@ -7,7 +7,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
 export const GetSchedules = (page, searchKey, search, sortKey, sort) => async dispatch => {
   try {
     const res = await axios.get(Config.APP_BACKEND
-    .concat(`user/schedule?page=${page || 1}&search[key]=${searchKey || 'start'}&search[value]=${search || ''}&sort[key]=${sortKey || 'id'}&sort[value]=${sort || 1}`))
+    .concat(`user/schedule?page=${page}&search[key]=${searchKey || 'start'}&search[value]=${search || ''}&sort[key]=${sortKey || 'id'}&sort[value]=${parseInt(sort)}`))
     dispatch({
       type: 'GET_SCHEDULES',
       payload: res.data
