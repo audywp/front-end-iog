@@ -1,7 +1,7 @@
 import Config from '../../utils/Config'
 
 import axios from 'axios'
-axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
 export const Sorting = (url)=> async dispatch => {
 

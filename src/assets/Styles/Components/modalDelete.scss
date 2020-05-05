@@ -1,0 +1,48 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .modal-dialog{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+    .modal-content{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .modalDelete {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+
+        .iconDelete{
+          .deleteIcon{
+            font-size: 120px;
+            color: red;
+          }
+        }
+        .actions{
+          width: 70%;
+          display: flex;
+          justify-content: space-between;
+          button{
+            padding: 12px 24px;
+            width: 120px;
+            border: none;
+          }
+          .yes{
+            background-color: red;
+          }
+        }
+      }
+    }
+  }
+}

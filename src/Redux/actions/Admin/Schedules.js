@@ -1,8 +1,8 @@
 import Config from '../../../utils/Config'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import axios from 'axios'
-axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-
+import history from '../../../utils/history'
+// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 
 export const GetSchedules = (page, searchKey, search, sortKey, sort) => async dispatch => {
   try {
@@ -17,9 +17,9 @@ export const GetSchedules = (page, searchKey, search, sortKey, sort) => async di
   }
 }
 
-export const CreateSchedules = (data) => async dispatch => {
+export const CreateSchedules = (idRoute, data) => async dispatch => {
   try {
-   const res = await axios.post(Config.APP_BACKEND.concat(`admin/schedule/add/`), data)
+   const res = await axios.post(Config.APP_BACKEND.concat(`admin/schedule/add/${idRoute}`), data)
    if(res) {
     dispatch({
       type: 'GET_SCHEDULES',
@@ -29,7 +29,7 @@ export const CreateSchedules = (data) => async dispatch => {
       toast: true,
       position: 'top-start',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 6000,
       timerProgressBar: true,
       onOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -39,7 +39,7 @@ export const CreateSchedules = (data) => async dispatch => {
 
     Toast.fire({
       icon: 'success',
-      title: 'Create route successfully'
+      title: 'Create Schedules successfully'
     })
   } else {
     const Toast = Swal.mixin({
@@ -60,22 +60,44 @@ export const CreateSchedules = (data) => async dispatch => {
     })
   }
   } catch (error) {
-    console.log(error)
+    alert('you dont have bus with selected class')
   }
 }
 
 export const DeleteSchedules = (id) => async dispatch => {
   try {
     const res = await axios.delete(Config.APP_BACKEND.concat(`admin/schedule/delete/${id}`))
-  
     if (res) {
-      alert('succes delete')
+      Swal.fire(
+        'Delete Succes',
+        'success'
+      )
+      history.push('/dashboard')
     } else {
       alert('failed')
     }
-  
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const Update = (id, data) => async dispatch => {
+  const res = await axios.patch(Config.APP_BACKEND.concat(`admin/schedule/update/${id}`), data)
+  try {
+    if (res) {
+      Swal.fire(
+        'Update Succes',
+        'success'
+      )
+      history.push('/dashboard')
+    } else {
+      Swal.fire(
+        'Update Failed',
+        'failed'
+      )
+    }
+  } catch (err) {
+    console.log(err)
   }
 }
 

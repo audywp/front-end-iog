@@ -16,10 +16,22 @@ export const showRoutes = (page) => async dispatch => {
   }
 }
 
+export const getRouteForCreate = (limit) => async dispatch => {
+  const res = await axios.get(Config.APP_BACKEND.concat(`admin/route?limit=${limit}`))
+  try {
+    dispatch({
+      type: 'CREATE_ROUTES',
+      payload: res.data
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const deleteRoutes = (id) => async dispatch => {
 
   try {
-    const res = await axios.delete(Config.APP_BACKEND.concat(`admin/route/delete/${id}`))
+    const res = await axios.delete(Config.APP_BACKEND.concat(`admin/route/delete/${id || 1}`))
     if(res) {
       dispatch({
         type: `DELETE_ROUTES`,
@@ -120,6 +132,19 @@ export const routesLoading = () => dispatch => {
   try {
     dispatch({
       type: 'ROUTES_LOADING'
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getRouteByStart = (data) => async dispatch => {
+  const res = await axios.get(Config.APP_BACKEND.concat(`admin/route/end-by-start`), data)
+  console.log(res)
+  try {
+    dispatch({
+      type : 'ROUTES_END',
+      payload: res.data
     })
   } catch (error) {
     console.log(error)

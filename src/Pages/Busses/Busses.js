@@ -113,8 +113,6 @@ class Busses extends Component {
 
 
   render() {
-    console.log(this.state)
-    console.log(this.props.Bus.data.pageInfo)
     const page = []
     const totalPage = this.props.Bus.data.pageInfo && this.props.Bus.data.pageInfo.totalPage
     for (let index = 0; index < totalPage; index++) {

@@ -13,12 +13,18 @@ class Login extends Component {
     super(props)
     this.state = {
       username: '',
+      usernameError: null,
       password: '',
+      passwordError:null,
       modal: false,
       toggle: false,
       inLogin: '',
       isLoading: false
     }
+
+    // regex
+
+    
 
     if (localStorage.getItem('token')) {
       this.setState({

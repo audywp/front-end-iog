@@ -8,16 +8,19 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink,
-  Container,
+  Container
 } from 'reactstrap'
+
+import ModalDelete from '../../Components/ModalDelete'
+import UpdateSchedule from './UpdateSchedule'
 import {connect} from 'react-redux'
-import {AiOutlineDelete, AiOutlineForm} from 'react-icons/ai'
+import {AiOutlineDelete, AiOutlineForm, AiOutlineCloseCircle} from 'react-icons/ai'
 import {FaSearch, FaSortAmountDown, FaSortAmountUp} from 'react-icons/fa'
 import CreateSchedules from './CreateSchedules'
 // import EditRoutes from './EditRoutes'
 import {GetSchedules, DeleteSchedules} from '../../Redux/actions/Admin/Schedules'
 import styled from 'styled-components'
-
+import history from '../../utils/history'
 const TableSchedules = styled(Table)`
   color: #ddd;
 `
@@ -37,7 +40,8 @@ class Schedules extends Component {
       searchKey: '',
       search: '',
       sortCond: true,
-      sortIcon: <FaSortAmountDown />
+      sortIcon: <FaSortAmountDown />,
+      modal: false
     }
     this.setPage = (e) => {
       e.preventDefault()
@@ -100,7 +104,7 @@ class Schedules extends Component {
 
   toggle = () => {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      modal: !this.state.modal
     })
   }
 
@@ -130,9 +134,18 @@ class Schedules extends Component {
     })
     this.props.GetSchedules(this.props.Schedules.data.pageInfo.page, this.state.searchKey, this.state.search, this.state.sortKey, parseInt(this.state.sort))
   }
+  deleteSchedule = (id) => {
+    this.props.GetSchedules(this.props.Schedules.data.pageInfo.page, this.state.searchKey, this.state.search, this.state.sortKey, parseInt(this.state.sort))
+    this.props.DeleteSchedules(id).then(()=> {
+      this.props.GetSchedules(this.props.Schedules.data.pageInfo.page, this.state.searchKey, this.state.search, this.state.sortKey, parseInt(this.state.sort))
+      history.push('/dashboard')
+      this.setState({
+        modal: false
+      })
+    })
+  }
 
   render() {
-    console.log(this.state.searchKey)
     const page = []
     const totalPage = this.props.Schedules.data.pageInfo && this.props.Schedules.data.pageInfo.totalPage
     for (let index = 0; index < totalPage; index++) {
@@ -209,11 +222,14 @@ class Schedules extends Component {
               <span onClick={this.handleSort} className='iconSort'>{this.state.sortIcon}</span>
             </FormGroup>
           </Form>
+          
           <CreateSchedules/>
         </div>
         <TableSchedules responsive bordered>
           <thead>
-            <tr>
+            <tr style={{
+              textAlign: 'center'
+            }}>
               <th>No</th>
               <th>Bus Name</th>
               <th>Class</th>
@@ -229,9 +245,10 @@ class Schedules extends Component {
 
             <tbody>
         { this.props.Schedules.data.result && this.props.Schedules.data.result.map((v,i)=>{
-          const { page, perPage, totalData, totalPage } = this.props.Schedules.data.pageInfo
+          const { page, perPage } = this.props.Schedules.data.pageInfo
             return (
-              <tr>
+              <>
+                <tr>
                 <th scope='row' key = { i }> {((page - 1) * perPage) + (i + 1) } </th>
                 <td>{v.car_name}</td>
                 <td>{v.bus_class}</td>
@@ -239,13 +256,19 @@ class Schedules extends Component {
                 <td>{v.start}</td>
                 <td>{v.end}</td>
                 <td>{v.price}</td>
-                <td>{v.departure_time}</td>
+                <td>{v.departure_time} - {v.arrive_time} </td>
                 <td> {v.departure_date.slice(0,10)}</td>
-                <td className='iconData'>
-                  <span><AiOutlineForm/></span>
-                  <span onClick={()=> this.props.DeleteSchedules(v.id)}> <AiOutlineDelete /> </span>
+                <td style={{
+                  display: 'flex',
+                  justifyContent: 'space-around'
+                }}>
+                  {/* <span><AiOutlineForm/></span> */}
+                  <UpdateSchedule id={`${v.id}`} />
+                  <ModalDelete openModal = {this.state.modal} toggle={this.toggle}  onclick={() => this.deleteSchedule(v.id)} />
                 </td>
               </tr>
+              
+              </>
             )
           })
         }

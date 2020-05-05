@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Button, Form, FormGroup, Label, Input, Modal,Container,ButtonDropdown, DropdownToggle,DropdownMenu,DropdownItem } from 'reactstrap';
+import { Row, Col, Button, Form, FormGroup, Label, Input, Modal,Container} from 'reactstrap';
 import styled from 'styled-components'
 
 import Schedule from '../../assets/Svg/schedule.svg'
@@ -9,7 +9,7 @@ import LoadingScreen from '../../Components/LoadingScreen'
 import {MdKeyboardBackspace} from 'react-icons/md'
 import { CreateSchedules as addSchedule, GetSchedules, schedulesLoading } from '../../Redux/actions/Admin/Schedules'
 import { getBus } from '../../Redux/actions/Admin/Busses'
-import {showRoutes} from '../../Redux/actions/Admin/Route'
+import {showRoutes, getRouteForCreate, getRouteByStart} from '../../Redux/actions/Admin/Route'
 import {connect} from 'react-redux'
 import '../../assets/Styles/Pages/Schedules.scss'
 import '../../assets/Styles/Pages/Statis.scss'
@@ -51,19 +51,23 @@ class CreateSchedules extends Component {
       departureDate: new Date(),
       modal: false,
       isLoading: false,
-      minDate: new Date()
+      minDate: new Date(),
+      idRoute: '',
+      endRoute: []
     }
-    this.toggleModal = () => {
+    this.toggleModal = async () => {
       this.setState({
         modal : !this.state.modal
       })
+      await this.props.getRouteForCreate(this.props.Route.data.pageInfo && this.props.Route.data.pageInfo.totalData)
     }
 
-    this.onHandleChange = (e) => {
+    this.onHandleChange = async (e) => {
       this.setState({
         [e.target.name] : e.target.value
       })
     }
+
     this.setIdbus = (idBus) => {
       this.setState({
         idBus: idBus
@@ -71,11 +75,17 @@ class CreateSchedules extends Component {
       console.log(idBus)
     }
 
-    this.setRoute = (idRoute) => {
+    this.setBusClass = (e) => {
       this.setState({
-        idRoute: idRoute
+        busClass: e.target.value
       })
-      console.log(idRoute)
+    }
+    
+    this.setRoute = (e) => {
+      this.setState({
+        idRoute: e.target.value
+      })
+      console.log(e)
     }
 
     this.onCreate = (e) => {
@@ -84,16 +94,17 @@ class CreateSchedules extends Component {
       const arriveTime = `${this.state.arriveTime}`
       const data = {
         nameAgent: this.state.agent,
-        start: this.state.start,
-        end: this.state.end,
         classBus: this.state.busClass,
         price: this.state.price,
         departureTime: departTime.slice(16, 24),
         arriveTime: arriveTime.slice(16, 24),
         departureDate: this.state.departureDate,
       }
+      console.log(data)
+      const { idRoute } = this.state
+      console.log('ini idRoute',idRoute)
       this.props.GetSchedules()
-      this.props.addSchedule(data).then(() => {
+      this.props.addSchedule(parseInt(idRoute), data).then(() => {
         if (this.props.Schedules.isLoading) {
           this.props.GetSchedules()
           this.setState({
@@ -104,7 +115,6 @@ class CreateSchedules extends Component {
     }
   }
   render() {
-
     if (!this.props.Schedules.isLoading) {
       return(
         <Container>
@@ -151,41 +161,49 @@ class CreateSchedules extends Component {
                           <Label for='Class'>Agent</Label>
                           <Input
                             onChange={this.onHandleChange}
-                            type='text'
+                            type='select'
                             name='agent'
                             id='Agent'
                             placeholder='Agent Name'
-                          />
+                          >
+                            {this.props.Agent.data.data && this.props.Agent.data.data.map((agent, i) => {
+                              return (
+                                <option key={i} value={`${agent.name}`}>{agent.name}</option>
+                              )
+                            })}
+                          </Input>
                         </FormGroup>
                         <FormGroup>
                           <Label for='name'>Start Place</Label>
                           <Input
-                            onChange={this.onHandleChange}
-                            type='text'
+                            onChange={this.setRoute}
+                            type='select'
                             name='start'
                             id='Start'
                             placeholder='Start Place'
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for='name'>End Place</Label>
-                          <Input
-                            onChange={this.onHandleChange}
-                            type='text'
-                            name='end'
-                            id='End'
-                            placeholder='End Place'
-                          />
+                          >
+                          {this.props.Route.dataCreate.data && this.props.Route.dataCreate.data.map((route, i) => {
+                              return (
+                                <option key={i} value={route.id}>{route.start} - {route.end} </option>
+                              )
+                            })}
+                          </Input>
                         </FormGroup>
                         <FormGroup>
                           <Label for='Class'>Class</Label>
                           <Input
-                            onChange={this.onHandleChange}
-                            type='text'
+                            onChange={this.setBusClass}
+                            type='select'
                             name='busClass'
                             id='Class'
                             placeholder='Class'
-                          />
+                          >
+                          {this.props.Bus.data.data && this.props.Bus.data.data.map((bus, i) => {
+                              return (
+                                <option key={i} value={bus.bus_class}>{bus.bus_class} </option>
+                              )
+                            })}
+                          </Input>
                         </FormGroup>
                         <FormGroup>
                           <Label for='Class'>Price</Label>
@@ -264,10 +282,11 @@ class CreateSchedules extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    Agent : state.Agent,
     Schedules: state.Schedules,
     Bus: state.Busses,
     Route: state.Routes
   }
 }
 
-export default connect(mapStateToProps, {addSchedule,schedulesLoading, GetSchedules, getBus, showRoutes}) (CreateSchedules)
+export default connect(mapStateToProps, {getRouteByStart, getRouteForCreate, addSchedule,schedulesLoading, GetSchedules, getBus, showRoutes}) (CreateSchedules)

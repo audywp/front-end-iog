@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Navbar from './Components/Navbar'
-import Dashoard from './Pages/Dashboard'
 import { BrowserRouter, Router, Route, Switch, Link, Redirect } from 'react-router-dom'
 import history from './utils/history'
 import Dashboard from './Pages/Dashboard'
@@ -9,7 +7,7 @@ import BeAgent from './Pages/BeAgent'
 export default class App extends Component {
   render () {
     if (localStorage.getItem('token')) {
-      history.push('/dashboard')
+      // history.push('/dashboard')
       return (
         <BrowserRouter>
           <Router history={history}>

@@ -1,0 +1,26 @@
+.cardProfile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  .cardContainerProfile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none !important;
+    img{
+      width: 220px;
+      height: 220px;
+      border-radius: 110px;
+    }
+
+    .cardProfileBody{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      
+      color: white;
+      font-size: 28px;
+    }
+  }
+}

@@ -18,18 +18,54 @@ import { FiUser, FiLock } from 'react-icons/fi'
 import { connect } from 'react-redux'
 import { setLogin, isLogout } from '../Redux/actions/isLogin'
 import history from '../utils/history'
+import {AiOutlineCloseCircle} from 'react-icons/ai'
+import { BsCheckCircle } from 'react-icons/bs'
 class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
       username: '',
       password: '',
+      usernameError: null,
+      passwordError: null,
+      usernameWrong: true,
+      passwordWrong: true,
       inLogin: '',
-      isLoading: false
+      isLoading: false,
+      disabledButton: true,
+      styleDisable: { cursor: 'not-allowed' }
+    }
+    this.checkUsername = () => {
+      const regex = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/
+      if (regex.test(this.state.username)) {
+        this.setState({
+          usernameError: <span style={{ color: 'white', fontSize: 25 }}><BsCheckCircle /></span>,
+          usernameWrong: false
+        })
+      } else {
+        this.setState({
+          usernameError: <span style={{ color: 'red', fontSize: 20 }}><AiOutlineCloseCircle /></span>,
+          
+        })
+      }
+    }
+    this.checkPassword = () => {
+      const regex = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/
+      if (regex.test(this.state.username)) {
+        this.setState({
+          passwordError: <span style={{ color: 'white', fontSize: 25 }}><BsCheckCircle /></span>,
+          passwordWrong: false
+        })
+      } else {
+        this.setState({
+          passwordError: <span style={{ color: 'red', fontSize: 20 }}><AiOutlineCloseCircle /></span>
+        })
+      }
     }
     this.handleChange = (e) => {
       this.setState({
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
+        disabledButton: false
       })
     }
 
@@ -45,6 +81,8 @@ class Login extends Component {
   }
 
   render () {
+    console.log(this.state.usernameError)
+    console.log(this.state.disabledButton)
     return (
       <>
         <Container className='login-page'>
@@ -63,7 +101,9 @@ class Login extends Component {
                       name='username'
                       id='username'
                       placeholder='Username'
+                      onBlur = {()=> this.checkUsername()}
                     />
+                    {this.state.usernameError}
                   </FormGroup>
                   <FormGroup>
                     <Label for='password'><FiLock /></Label>
@@ -73,11 +113,13 @@ class Login extends Component {
                       name='password'
                       id='password'
                       placeholder='Password'
+                      onBlur = {()=> this.checkPassword()}
                     />
+                    {this.state.passwordError}
                   </FormGroup>
                   <div className='submit'>
                     <Link className='forgotpassword' to='/forgotpassword'>Forgot your password ?</Link>
-                    <Button type='submit' className='buttonLogin'><span>Login</span></Button>
+                    <Button disabled={this.state.disabledButton} type='submit' className={this.state.disabledButton ? 'disableButton' : 'buttonLogin'}><span>Login</span></Button>
                   </div>
                 </Form>
               </Container>

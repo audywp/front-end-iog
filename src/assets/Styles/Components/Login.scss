@@ -90,6 +90,14 @@ $Textcolor: #324047;
         padding: 6px 32px;
         border-radius: 10px !important;
       }
+      .disableButton{
+        cursor: not-allowed;
+        background: $color;
+        outline: none;
+        box-shadow: 0 0 4px 1px $color;
+        padding: 6px 32px;
+        border-radius: 10px !important;
+      }
     }
   }
 }

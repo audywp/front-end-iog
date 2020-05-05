@@ -10,6 +10,7 @@ export const setLogin = (data) => async dispatch => {
     console.log(infoLogin)
     if (infoLogin.data.success === true) {
       localStorage.setItem('token', infoLogin.data.token)
+      localStorage.setItem('id', infoLogin.data.data.id)
       const Toast = Swal.mixin({
         toast: true,
         position: 'top-start',

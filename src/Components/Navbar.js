@@ -10,6 +10,8 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap'
+import Profile from '../Pages/Profile'
+
 
 class Navbar extends Component {
   constructor (props) {
@@ -40,7 +42,7 @@ class Navbar extends Component {
           <Nav>
             <NavItem>
               <NavLink>
-                <Link to='/dashboard'>Dashboard</Link>
+                <Profile/>
               </NavLink>
             </NavItem>
             <NavItem>

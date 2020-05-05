@@ -17,6 +17,7 @@ import { getBus } from '../Redux/actions/Admin/Busses'
 import { showRoutes } from '../Redux/actions/Admin/Route'
 import { GetSchedules } from '../Redux/actions/Admin/Schedules'
 import { GetDataAgent } from '../Redux/actions/Admin/Agent'
+import { GetUpdate } from '../Redux/actions/Update'
 import { connect } from 'react-redux'
 import history from '../utils/history'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
@@ -44,6 +45,8 @@ class Dashboard extends Component {
     await this.props.getBus()
     await this.props.showRoutes()
     await this.props.GetSchedules()
+    const id = localStorage.getItem('id')
+    await this.props.GetUpdate(id)
   }
   
 
@@ -100,8 +103,10 @@ const mapStateToProps = state => {
   return {
     Bus: state.Busses,
     Routes: state.Routes,
-    Schedules: state.Schedules
+    Schedules: state.Schedules,
+    Profile: state.UpdateProfile,
+    login: state.isLogin
   }
 }
 
-export default connect(mapStateToProps, { getBus, showRoutes, GetSchedules, GetDataAgent })(Dashboard)
+export default connect(mapStateToProps, { getBus, showRoutes, GetSchedules, GetDataAgent, GetUpdate })(Dashboard)

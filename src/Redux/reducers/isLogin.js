@@ -11,7 +11,8 @@ export default function isLogin(state = initialState, action) {
       return {
         ...state,
         isLogged :true,
-        isLoading : true
+        isLoading : true,
+        userInfo: action.payload
       }
     case 'IS_LOGOUT':
       return {
