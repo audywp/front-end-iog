@@ -228,7 +228,8 @@ class Schedules extends Component {
         <TableSchedules responsive bordered>
           <thead>
             <tr style={{
-              textAlign: 'center'
+              textAlign: 'center',
+              fontSize: 16
             }}>
               <th>No</th>
               <th>Bus Name</th>
@@ -237,7 +238,6 @@ class Schedules extends Component {
               <th>Start</th>
               <th>End</th>
               <th>Price</th>
-              <th>Time</th>
               <th>Date</th>
               <th className= 'table-options'>Options</th>
             </tr>  
@@ -248,7 +248,9 @@ class Schedules extends Component {
           const { page, perPage } = this.props.Schedules.data.pageInfo
             return (
               <>
-                <tr>
+                <tr style={{
+                  fontSize: 16
+                }}>
                 <th scope='row' key = { i }> {((page - 1) * perPage) + (i + 1) } </th>
                 <td>{v.car_name}</td>
                 <td>{v.bus_class}</td>
@@ -256,7 +258,6 @@ class Schedules extends Component {
                 <td>{v.start}</td>
                 <td>{v.end}</td>
                 <td>{v.price}</td>
-                <td>{v.departure_time} - {v.arrive_time} </td>
                 <td> {v.departure_date.slice(0,10)}</td>
                 <td style={{
                   display: 'flex',
